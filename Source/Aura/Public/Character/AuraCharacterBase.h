@@ -6,20 +6,24 @@
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
-UCLASS()
+UCLASS(Abstract, NotBlueprintable)
 class AURA_API AAuraCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	AAuraCharacterBase();
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+	// Region StaticMeshComponent References
+	
+	UPROPERTY(EditAnywhere, Category="Combat")
+	TObjectPtr<USkeletalMeshComponent> WeaponComponent;
 
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName WeaponComponentSocketName { "WeaponHandSocket" };
 
+	// End Region
 };
