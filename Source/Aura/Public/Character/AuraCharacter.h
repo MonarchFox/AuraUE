@@ -7,7 +7,7 @@
 #include "AuraCharacter.generated.h"
 
 /**
- * 
+ *		!Implements Player Character
  */
 
 UCLASS(Blueprintable)

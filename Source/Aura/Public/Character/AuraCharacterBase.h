@@ -6,6 +6,11 @@
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
+
+/*
+ *		!Base Character Class
+ */
+
 UCLASS(Abstract, NotBlueprintable)
 class AURA_API AAuraCharacterBase : public ACharacter
 {
@@ -17,7 +22,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	// Region StaticMeshComponent References
+	// Section StaticMeshComponent References
 	
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> WeaponComponent;
@@ -25,5 +30,5 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName WeaponComponentSocketName { "WeaponHandSocket" };
 
-	// End Region
+	// End
 };

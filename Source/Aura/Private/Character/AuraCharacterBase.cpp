@@ -7,13 +7,13 @@ AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	// Region StaticMeshComponents Constructor
+	// Section StaticMeshComponents Constructor
 
 	WeaponComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponComponent");
 	WeaponComponent->SetupAttachment(GetMesh(), WeaponComponentSocketName);
 	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
-	// End Region
+	// End
 }
 
 void AAuraCharacterBase::BeginPlay()

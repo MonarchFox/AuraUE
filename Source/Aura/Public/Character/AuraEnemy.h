@@ -7,7 +7,7 @@
 #include "AuraEnemy.generated.h"
 
 /**
- * 
+ *		!Implements Enemy Character
  */
 
 UCLASS(Blueprintable)
