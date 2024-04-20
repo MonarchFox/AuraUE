@@ -1,1 +1,1 @@
-StaticAssets/ filter=lfs diff=lfs merge=lfs -text
+Content/StaticAssets/ filter=lfs diff=lfs merge=lfs -text
