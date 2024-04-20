@@ -1,6 +1,8 @@
 # Visual Studio 2015 user specific files
 .vs/
 .idea
+.vsconfig
+Aura.uproject
 
 # Compiled Object files
 *.slo
@@ -74,10 +76,3 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 UpgradeLog
-
-
-# Assets Folders
-
-# You can download this assets from unreal market place directly and migrate character folder to the content of this project 
-StaticAssets/
-ExternalAssets/
