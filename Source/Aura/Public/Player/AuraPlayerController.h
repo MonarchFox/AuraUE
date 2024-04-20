@@ -9,7 +9,7 @@
 
 /**
  *		!Implements Player Controller
- *		+ Player Inputs
+ *		+ Controller Inputs
  *		+ Mouse Cursor
  */
 
@@ -39,7 +39,7 @@ protected:
 	// End
 
 private:
-	// Section Input Declarations
+	// Section Inputs
 	
 	UPROPERTY(EditAnywhere, Category="Player Input")
 	TObjectPtr<UInputMappingContext> AuraInputContext;
@@ -47,9 +47,7 @@ private:
 	UPROPERTY(EditAnywhere, Category="Player Input")
 	TObjectPtr<UInputAction> MoveInputAction;
 
-	// End
-
-	// Section Input Methods
+	// Sub-Section Input Methods
 
 	void MoveAction(const FInputActionValue& Action);
 	

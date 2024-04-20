@@ -56,6 +56,7 @@ void AAuraPlayerController::InitCursor()
 
 void AAuraPlayerController::SetupInputComponent()
 {
+	// !Binds Inputs
 	Super::SetupInputComponent();
 
 	UEnhancedInputComponent* EnhancedInputComponent =
@@ -71,7 +72,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 void AAuraPlayerController::MoveAction(const FInputActionValue& Action)
 {
-	// !Implements Player Movement With Respect to its Directions
+	// !Implements Player Movement With Respect to its Directions and Move Mesh forward direction towards it 
 
 	const FVector2d ActionInput = Action.Get<FVector2d>();
 
