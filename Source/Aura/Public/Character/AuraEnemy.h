@@ -7,9 +7,15 @@
 #include "Interaction/EnemyInterface.h"
 #include "AuraEnemy.generated.h"
 
-/**
- *		!Implements Enemy Character
- */
+/*****************************************************************************
+ *
+ *  class AAuraEnemy
+ *
+ *  The AAuraEnemy class is a Blueprintable class that represents an enemy in the game.
+ *  It inherits from AAuraCharacterBase and IEnemyInterface.
+ *
+ *****************************************************************************/
+
 
 UCLASS(Blueprintable)
 class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
@@ -19,9 +25,11 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 public:
 	AAuraEnemy();
 
-	// Section Interface
+protected:
+	virtual void BeginPlay() override;
 
-	// Sub-Section EnemyInterface
+public:
+	// Section Interface
 
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;

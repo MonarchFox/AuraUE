@@ -6,15 +6,15 @@
 #include "Character/AuraCharacterBase.h"
 #include "AuraCharacter.generated.h"
 
-/**
- *		!Implements AuraCharacter
- */
-
-
+// Forward Declarations
 class UCameraComponent;
 class USpringArmComponent;
 
-
+/**
+ * @class AAuraCharacter
+ * @brief Represents a character in the Aura game.
+ * @details This class is a derived class of AAuraCharacterBase and adds components specific to a character.
+ */
 UCLASS(Blueprintable)
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
@@ -22,7 +22,9 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 
 public:
 	AAuraCharacter();
-	
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
 private:
 
 	// Section Components
@@ -34,4 +36,7 @@ private:
 	TObjectPtr<UCameraComponent> CameraComponent;
 
 	// End Section
+
+	//~ Internal Methods
+	void InitAbilityActorInfo();
 };
