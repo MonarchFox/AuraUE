@@ -5,6 +5,7 @@
 
 #include "EnhancedInputSubsystems.h" 
 #include "EnhancedInputComponent.h" 
+#include "Interaction/EnemyInterface.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
@@ -50,7 +51,7 @@ void AAuraPlayerController::InitCursor()
 	SetInputMode(InputModeData);
 }
 
-// End
+// End Initial Setups
 
 // Section Input Setups
 
@@ -89,4 +90,49 @@ void AAuraPlayerController::MoveAction(const FInputActionValue& Action)
 	}
 }
 
-// End
+// End Input Setups
+
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
+}
+
+// Section Enemy Interface
+
+
+void AAuraPlayerController::CursorTrace()
+{
+	// !Uses EnemyInterface HighLight Effects on hovering
+	
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+
+	if (!CursorHit.bBlockingHit) return;
+	
+	StepActor(CursorHit);
+	PerformHighlights(CursorHit);
+}
+
+void AAuraPlayerController::StepActor(const FHitResult& CHit)
+{
+	// !Step Forward Actor History
+	LastActor = CurrentActor;
+	CurrentActor  = Cast<IEnemyInterface>(CHit.GetActor());
+}
+
+void AAuraPlayerController::PerformHighlights(const FHitResult& CHit) const
+{
+	// !Implements Highlight and UnHighlight Conditions for Actor
+	
+    if (!LastActor && CurrentActor) CurrentActor->HighLightActor();
+    if (LastActor && !CurrentActor) LastActor->UnHighLightActor();
+    if (LastActor && CurrentActor && LastActor != CurrentActor)
+    {
+    	LastActor->UnHighLightActor();
+    	CurrentActor->HighLightActor();
+    }
+}
+
+// End Enemy Interface

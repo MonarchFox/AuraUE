@@ -4,12 +4,22 @@
 #include "Character/AuraCharacter.h"
 
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 
 AAuraCharacter::AAuraCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
+	GetCharacterMovement()->bConstrainToPlane = true;
+	GetCharacterMovement()->bSnapToPlaneAtStart = true;
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
 
 	// Section Camera Component Configuration
 
@@ -18,17 +28,8 @@ AAuraCharacter::AAuraCharacter()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	CameraComponent->bUsePawnControlRotation = false;
 	
 	// End
-}
-
-
-void AAuraCharacter::BeginPlay()
-{
-	
-}
-
-void AAuraCharacter::Tick(float DeltaSeconds)
-{
-	
 }

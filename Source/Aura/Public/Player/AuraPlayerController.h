@@ -17,6 +17,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+class IEnemyInterface;
 
 
 UCLASS()
@@ -26,6 +27,7 @@ class AURA_API AAuraPlayerController : public APlayerController
 
 public:
 	AAuraPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -36,7 +38,7 @@ protected:
 	void InitController() const;
 	void InitCursor();
 
-	// End
+	// End Initial Setups
 
 private:
 	// Section Inputs
@@ -51,5 +53,18 @@ private:
 
 	void MoveAction(const FInputActionValue& Action);
 	
-	// End
+	// End Section Inputs
+
+	// Section Interface
+
+	// Sub-Section Enemy Interface
+	
+	IEnemyInterface* LastActor;
+	IEnemyInterface* CurrentActor;
+
+	void CursorTrace();
+	void StepActor(const FHitResult& CHit);
+	void PerformHighlights(const FHitResult& CHit) const;
+	
+	// End Enemy Interface
 };
