@@ -20,6 +20,14 @@ class UInputAction;
 class IEnemyInterface;
 
 
+/**
+ *		Implements the player controller for the Aura game.
+ *
+ *		This class inherits from APlayerController and adds functionality for controlling the player character,
+ *		handling player inputs, and managing the mouse cursor.
+ *
+ *		@see APlayerController
+ */
 UCLASS()
 class AURA_API AAuraPlayerController : public APlayerController
 {
@@ -59,8 +67,8 @@ private:
 
 	// Sub-Section Enemy Interface
 	
-	IEnemyInterface* LastActor;
-	IEnemyInterface* CurrentActor;
+	TObjectPtr<IEnemyInterface> LastActor;
+	TObjectPtr<IEnemyInterface> CurrentActor;
 
 	void CursorTrace();
 	void StepActor(const FHitResult& CHit);

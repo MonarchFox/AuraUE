@@ -10,7 +10,7 @@ UAuraAttributeSet::UAuraAttributeSet()
 	// !Defaults
 
 	//? For Debug Purpose Only
-	InitHitPoints(100.f);
+	InitHitPoints(50.f);
 	InitMaxHitPoints(120.f);
 
 	InitMaxManaPoints(200.f);

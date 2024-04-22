@@ -51,6 +51,7 @@ void AAuraEffectActor::OnOverlapBeginActor(UPrimitiveComponent* OverlappedCompon
 		//? Debug Purpose Only
 		UAuraAttributeSet* TempAuraAttributeSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
 		TempAuraAttributeSet->SetHitPoints(AuraAttributeSet->GetHitPoints() + 100.f);
+		TempAuraAttributeSet->SetManaPoints(AuraAttributeSet->GetManaPoints() - 100.f);
 
 		Destroy();
 	}

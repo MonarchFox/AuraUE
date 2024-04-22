@@ -29,12 +29,11 @@ void AAuraPlayerController::InitController() const
 
 	check(AuraInputContext);
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem =
-		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-
-	check(Subsystem);
-
-	Subsystem->AddMappingContext(AuraInputContext, 0);
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		Subsystem->AddMappingContext(AuraInputContext, 0);
+	}
 }
 
 void AAuraPlayerController::InitCursor()

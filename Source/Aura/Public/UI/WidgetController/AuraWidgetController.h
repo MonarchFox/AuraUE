@@ -3,19 +3,79 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
 #include "AuraWidgetController.generated.h"
+
 
 class UAttributeSet;
 class UAbilitySystemComponent;
+class APlayerState;
+
+
 /**
- * 
+ * @class FWidgetController
+ * @brief Represents a widget controller that holds references to various components.
+ * @details This struct is used to store references to a player controller, player state, ability system component, and attribute set.
+ *
+ * @property PlayerController The player controller associated with the widget controller.
+ * @property PlayerState The player state associated with the widget controller.
+ * @property AbilitySystemComponent The ability system component associated with the widget controller.
+ * @property AttributeSet The attribute set associated with the widget controller.
+ */
+USTRUCT(Blueprintable)
+struct FWidgetController
+{
+	GENERATED_BODY()
+
+	FWidgetController() {}
+	FWidgetController(APlayerController* PlayerController, APlayerState* PlayerState,
+		UAbilitySystemComponent* AbilitySystemComponent, UAttributeSet* AttributeSet):
+	PlayerController(PlayerController), PlayerState(PlayerState),
+	AbilitySystemComponent(AbilitySystemComponent), AttributeSet(AttributeSet) {}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<APlayerController> PlayerController = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<APlayerState> PlayerState = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAttributeSet> AttributeSet = nullptr;
+};
+
+/**
+ * @class UAuraWidgetController
+ * @brief Represents a widget controller that holds references to various components.
+ * @details This class is used to store references to a player controller, player state, ability system component, and attribute set.
+ *
+ * @method SetWidgetController Sets the widget controller with the given values.
+ * @param WidgetController The widget controller struct containing the references to the components.
+ * @return void
+ *
+ * @property PlayerController The player controller associated with the widget controller.
+ * @property PlayerState The player state associated with the widget controller.
+ * @property AbilitySystemComponent The ability system component associated with the widget controller.
+ * @property AttributeSet The attribute set associated with the widget controller.
+ *
+ * @property PlayerController The player controller associated with the widget controller.
+ * @property PlayerState The player state associated with the widget controller.
+ * @property AbilitySystemComponent The ability system component associated with the widget controller.
+ * @property AttributeSet The attribute set associated with the widget controller.
  */
 UCLASS()
 class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION(BlueprintCallable)
+	void SetWidgetController(const FWidgetController& WidgetController);
+	virtual void BroadcastInitialValues();
+	virtual void BindCallbacksToDependencies();
+	
 protected:
 
 	// Section Data Broadcast 
