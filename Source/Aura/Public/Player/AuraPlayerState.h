@@ -32,7 +32,6 @@ class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInte
 	
 public:
 	AAuraPlayerState();
-
 	
 	//~ AbilitySystemInterface Getters
 	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
