@@ -30,20 +30,22 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 public:
 	AAuraCharacterBase();
 
-	// Section Interfaces
-
+	//~ Getters For Gameplay Ability System
 	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
-	
-	// Section End
-	
-	//? Getters
-	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
 	FORCEINLINE UAttributeSet* GetAttributeSet () const { return AttributeSet; }
 
 protected:
 	virtual void BeginPlay() override;
 
-	// Section StaticMeshComponent References
+	//~ Gameplay Ability System Components
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UAttributeSet> AttributeSet;
+
+	
+	// Section Cosmetics References
 	
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TObjectPtr<USkeletalMeshComponent> WeaponComponent;
@@ -53,13 +55,8 @@ protected:
 
 	// End
 
-	// Section Ability System Components
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAttributeSet> AttributeSet;
-	
-	// End
+public:
+		
+	/** ? Getters */
+	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
 };

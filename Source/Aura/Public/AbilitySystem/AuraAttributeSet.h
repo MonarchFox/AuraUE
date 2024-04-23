@@ -31,7 +31,7 @@ public:
 	UAuraAttributeSet();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	// Section Attribute Components
+	// Section Properties
 
 	// + HitPoints Attribute
 	UPROPERTY(ReplicatedUsing=OnRep_HitPoints, BlueprintReadOnly, Category="Attribute")
@@ -42,7 +42,6 @@ public:
 	void OnRep_HitPoints(const FGameplayAttributeData& OldHitPoints) const;
 
 	// + MaxHitPoints Attribute
-
 	UPROPERTY(ReplicatedUsing=OnRep_MaxHitPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData MaxHitPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHitPoints);
@@ -59,7 +58,6 @@ public:
 	void OnRep_ManaPoints(const FGameplayAttributeData& OldManaPoints) const;
 
 	// + MaxManaPoints Attribute
-	
 	UPROPERTY(ReplicatedUsing=OnRep_MaxManaPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData MaxManaPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxManaPoints);
@@ -67,5 +65,5 @@ public:
 	UFUNCTION()
 	void OnRep_MaxManaPoints(const FGameplayAttributeData& OldMaxManaPoints) const;
 	
-	// End Section
+	// End Properties
 };

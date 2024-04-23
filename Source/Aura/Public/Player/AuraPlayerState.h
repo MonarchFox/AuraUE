@@ -33,16 +33,13 @@ class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInte
 public:
 	AAuraPlayerState();
 	
-	//~ AbilitySystemInterface Getters
+	//~ Gameplay Ability System Getters
 	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
-	// ? Other Getters
-	FORCEINLINE float GetClientUpdateFrequency() const { return ClientUpdateFrequency; }
-	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
 	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 	
 protected:
 
-	// Section Ability System State
+	// Section Ability System Components
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -50,5 +47,10 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> AttributeSet;
 
-	// End Ability System State
+	// End Ability System Components
+
+public:
+	/** ? Other Getters */
+	FORCEINLINE float GetClientUpdateFrequency() const { return ClientUpdateFrequency; }
+	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
 };
