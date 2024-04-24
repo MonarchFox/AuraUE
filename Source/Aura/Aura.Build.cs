@@ -16,6 +16,7 @@ public class Aura : ModuleRules
 			"InputCore",
 			"EnhancedInput",
 			"GameplayAbilities",
+			"Niagara",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[]

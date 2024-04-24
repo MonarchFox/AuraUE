@@ -9,6 +9,8 @@
 
 class UGameplayEffect;
 
+// TODO: Create Policies
+enum class EEffectApplicationPolicy {  };
 
 /**
  * @class AAuraEffectActor

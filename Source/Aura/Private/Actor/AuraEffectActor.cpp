@@ -9,7 +9,7 @@
 AAuraEffectActor::AAuraEffectActor()
 {
 	// !Defaults
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 }
 

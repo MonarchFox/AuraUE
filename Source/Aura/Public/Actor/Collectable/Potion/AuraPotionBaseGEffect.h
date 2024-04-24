@@ -9,7 +9,10 @@
 class USphereComponent;
 
 /**
- * 
+ * @class AAuraPotionBaseGEffect
+ * @brief This class represents a base aura potion effect that can be applied to a character.
+ *
+ * This class inherits from AAuraEffectActor and adds functionality related to aura potion effects.
  */
 UCLASS()
 class AURA_API AAuraPotionBaseGEffect : public AAuraEffectActor
@@ -19,15 +22,14 @@ class AURA_API AAuraPotionBaseGEffect : public AAuraEffectActor
 public:
 	AAuraPotionBaseGEffect();
 
+	UFUNCTION()
+	void OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 protected:
 
 	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	virtual void OnSphereOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-
 	//~ Components for potions
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UStaticMeshComponent> PotionBody;
