@@ -67,8 +67,8 @@ private:
 
 	// Sub-Section Enemy Interface
 	
-	TObjectPtr<IEnemyInterface> LastActor;
-	TObjectPtr<IEnemyInterface> CurrentActor;
+	IEnemyInterface* LastActor;
+	IEnemyInterface* CurrentActor;
 
 	void CursorTrace();
 	void StepActor(const FHitResult& CHit);
