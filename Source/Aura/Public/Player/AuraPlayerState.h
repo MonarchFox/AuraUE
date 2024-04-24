@@ -39,15 +39,12 @@ public:
 	
 protected:
 
-	// Section Ability System Components
-
+	//~ Gameplay Ability System Components  
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> AttributeSet;
-
-	// End Ability System Components
 
 public:
 	/** ? Other Getters */

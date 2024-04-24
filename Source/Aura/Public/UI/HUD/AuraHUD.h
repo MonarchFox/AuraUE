@@ -7,7 +7,7 @@
 #include "AuraHUD.generated.h"
 
 
-struct FWidgetController;
+struct FWidgetControllerParam;
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UOverlayWidgetController;
@@ -34,7 +34,7 @@ public:
 		UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent);
 
 	//? Getters
-	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetController& WidgetController);
+	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParam& WidgetControllerParam);
 
 private:
 

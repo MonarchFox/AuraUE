@@ -25,11 +25,11 @@ void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* Pl
 	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
 	OverlayWidget = Cast<UAuraUserWidget>(Widget);
 
-	const FWidgetController WidgetController(PlayerController, PlayerState, AbilitySystemComponent, AttributeSet);
-	UOverlayWidgetController* OWidgetController = GetOverlayWidgetController(WidgetController);
+	const FWidgetControllerParam WidgetControllerParam(PlayerController, PlayerState, AbilitySystemComponent, AttributeSet);
+	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParam);
 
-	OverlayWidget->SetWidgetController(OWidgetController);
-	OWidgetController->BroadcastInitialValues();
+	OverlayWidget->SetWidgetController(WidgetController);
+	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
 }
@@ -37,15 +37,15 @@ void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* Pl
 /**
  * Get the overlay widget controller for the given widget controller.
  *
- * @param WidgetController The widget controller to associate with the overlay controller.
+ * @param WidgetControllerParam The widget controller to associate with the overlay controller.
  * @return The overlay widget controller.
  */
-UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetController& WidgetController)
+UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParam& WidgetControllerParam)
 {
-	if (!OverlayWidgetController)
+	if (OverlayWidgetController == nullptr)
 	{
 		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
-		OverlayWidgetController->SetWidgetController(WidgetController);
+		OverlayWidgetController->SetWidgetControllerParam(WidgetControllerParam);
 		OverlayWidgetController->BindCallbacksToDependencies();
 	}
 	return OverlayWidgetController;

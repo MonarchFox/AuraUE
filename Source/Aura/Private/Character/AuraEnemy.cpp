@@ -18,18 +18,17 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCustomDepthStencilValue(HighlightStencilValue);
 
 	// + Ability System Defaults
-	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
-	AbilitySystemComponent->SetIsReplicated(IsReplicationRequired());
-	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	PAbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	PAbilitySystemComponent->SetIsReplicated(IsReplicationRequired());
+	PAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
-	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+	PAttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
 }
 
 // Section Interface

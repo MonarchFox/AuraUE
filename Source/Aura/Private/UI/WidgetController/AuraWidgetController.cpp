@@ -5,7 +5,7 @@
 
 
 
-void UAuraWidgetController::SetWidgetController(const FWidgetController& WidgetController)
+void UAuraWidgetController::SetWidgetControllerParam(const FWidgetControllerParam& WidgetController)
 {
 	PlayerController = WidgetController.PlayerController;
 	PlayerState = WidgetController.PlayerState;

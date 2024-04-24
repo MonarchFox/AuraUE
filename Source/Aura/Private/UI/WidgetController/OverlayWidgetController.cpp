@@ -26,7 +26,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 	OnMaxHealthChanged.Broadcast(AuraAttributes->GetMaxHitPoints());
 
 	OnManaChanged.Broadcast(AuraAttributes->GetManaPoints());
-	OnMaxHealthChanged.Broadcast(AuraAttributes->GetMaxManaPoints());
+	OnMaxManaChanged.Broadcast(AuraAttributes->GetMaxManaPoints());
 }
 
 /**
@@ -48,6 +48,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	Super::BindCallbacksToDependencies();
 
 	const UAuraAttributeSet* AuraAttributes = CastChecked<UAuraAttributeSet>(AttributeSet);
+	
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetHitPointsAttribute())
 	.AddUObject(this, &UOverlayWidgetController::HealthChanged);
 

@@ -30,19 +30,23 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 public:
 	AAuraCharacterBase();
 
-	//~ Getters For Gameplay Ability System
-	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
-	FORCEINLINE UAttributeSet* GetAttributeSet () const { return AttributeSet; }
+	//~ Getters and Setters For Gameplay Ability System
+	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return PAbilitySystemComponent; }
+	FORCEINLINE void SetAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent) { PAbilitySystemComponent = AbilitySystemComponent; }
+
+	FORCEINLINE UAttributeSet* GetAttributeSet () const { return PAttributeSet; }
+	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet) { PAttributeSet = AttributeSet; }
+
 
 protected:
 	virtual void BeginPlay() override;
 
 	//~ Gameplay Ability System Components
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UAbilitySystemComponent> PAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UAttributeSet> AttributeSet;
+	TObjectPtr<UAttributeSet> PAttributeSet;
 
 	
 	// Section Cosmetics References

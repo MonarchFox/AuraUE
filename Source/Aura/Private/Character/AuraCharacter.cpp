@@ -11,7 +11,14 @@
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
 
-
+/**
+ * @brief Default constructor for AAuraCharacter.
+ *
+ * This constructor initializes the default properties of AAuraCharacter.
+ * It sets the character's tick flag to true.
+ *
+ * @note This constructor is called internally and is not meant to be called directly.
+ */
 AAuraCharacter::AAuraCharacter()
 {
 	/** !Defaults */
@@ -29,7 +36,6 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationYaw = false;
 
 	// + Camera Component Defaults
-
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArm");
 	SpringArmComponent->SetupAttachment(GetRootComponent());
 
@@ -37,7 +43,6 @@ AAuraCharacter::AAuraCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	CameraComponent->bUsePawnControlRotation = false;
-	
 }
 
 /**
@@ -91,15 +96,17 @@ void AAuraCharacter::InitAbilityActorInfo()
 	check(AuraPlayerState);
 
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
-	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
-	AttributeSet = AuraPlayerState->GetAttributeSet();
+
+	SetAbilitySystemComponent(AuraPlayerState->GetAbilitySystemComponent());
+	SetAttributeSet( AuraPlayerState->GetAttributeSet());
 
 	// + Setting Up HUD
 	if (AAuraPlayerController* AuraPlayerController  = Cast<AAuraPlayerController>(GetController()))
 	{
 		if (AAuraHUD* AuraHUD  = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
 		{
-			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AttributeSet, AbilitySystemComponent);
+			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState,
+				GetAttributeSet(), GetAbilitySystemComponent());
 		}
 	}
 }

@@ -13,8 +13,8 @@ UAuraAttributeSet::UAuraAttributeSet()
 	InitHitPoints(50.f);
 	InitMaxHitPoints(120.f);
 
-	InitMaxManaPoints(200.f);
 	InitManaPoints(150.f);
+	InitMaxManaPoints(200.f);
 }
 
 // Section Replications
@@ -64,6 +64,18 @@ void UAuraAttributeSet::OnRep_MaxManaPoints(const FGameplayAttributeData& OldMax
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxManaPoints, OldMaxManaPoints);
 }
 
+// + StaminaPoints Attribute Replication
+void UAuraAttributeSet::OnRep_StaminaPoints(const FGameplayAttributeData& OldStaminaPoints) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, StaminaPoints, OldStaminaPoints);
+}
+
+// + MaxStaminaPoints Attribute Replication
+void UAuraAttributeSet::OnRep_MaxStaminaPoints(const FGameplayAttributeData& OldMaxStaminaPoints) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxStaminaPoints, OldMaxStaminaPoints);
+}
+
 // + All Attribute Replication Properties Setup
 /**
  * GetLifetimeReplicatedProps function for setting up the replicated properties of the UAuraAttributeSet class.
@@ -87,6 +99,11 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	// + Mana Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaPoints, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxManaPoints, COND_None, REPNOTIFY_Always);
+
+
+	// + Stamina Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaminaPoints, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxStaminaPoints, COND_None, REPNOTIFY_Always);
 }
 
 // End Replications

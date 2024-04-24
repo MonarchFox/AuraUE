@@ -12,7 +12,7 @@ class APlayerState;
 
 
 /**
- * @class FWidgetController
+ * @class FWidgetControllerParam
  * @brief Represents a widget controller that holds references to various components.
  * @details This struct is used to store references to a player controller, player state, ability system component, and attribute set.
  *
@@ -22,12 +22,13 @@ class APlayerState;
  * @property AttributeSet The attribute set associated with the widget controller.
  */
 USTRUCT(Blueprintable)
-struct FWidgetController
+struct FWidgetControllerParam
 {
 	GENERATED_BODY()
 
-	FWidgetController() {}
-	FWidgetController(APlayerController* PlayerController, APlayerState* PlayerState,
+	FWidgetControllerParam() {}
+
+	FWidgetControllerParam(APlayerController* PlayerController, APlayerState* PlayerState,
 		UAbilitySystemComponent* AbilitySystemComponent, UAttributeSet* AttributeSet):
 	PlayerController(PlayerController), PlayerState(PlayerState),
 	AbilitySystemComponent(AbilitySystemComponent), AttributeSet(AttributeSet) {}
@@ -72,7 +73,7 @@ class AURA_API UAuraWidgetController : public UObject
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetController(const FWidgetController& WidgetController);
+	void SetWidgetControllerParam(const FWidgetControllerParam& WidgetController);
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
 	

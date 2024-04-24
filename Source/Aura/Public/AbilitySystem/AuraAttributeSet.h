@@ -33,7 +33,7 @@ public:
 
 	// Section Properties
 
-	// + HitPoints Attribute
+	// + HitPoints Property
 	UPROPERTY(ReplicatedUsing=OnRep_HitPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData HitPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HitPoints);
@@ -41,7 +41,7 @@ public:
 	UFUNCTION()
 	void OnRep_HitPoints(const FGameplayAttributeData& OldHitPoints) const;
 
-	// + MaxHitPoints Attribute
+	// + MaxHitPoints Property
 	UPROPERTY(ReplicatedUsing=OnRep_MaxHitPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData MaxHitPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHitPoints);
@@ -49,7 +49,7 @@ public:
 	UFUNCTION()
 	void OnRep_MaxHitPoints(const FGameplayAttributeData& OldMaxHitPoints) const;
 
-	// + ManaPoints Attribute
+	// + ManaPoints Property
 	UPROPERTY(ReplicatedUsing=OnRep_ManaPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData ManaPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaPoints);
@@ -57,13 +57,29 @@ public:
 	UFUNCTION()
 	void OnRep_ManaPoints(const FGameplayAttributeData& OldManaPoints) const;
 
-	// + MaxManaPoints Attribute
+	// + MaxManaPoints Property
 	UPROPERTY(ReplicatedUsing=OnRep_MaxManaPoints, BlueprintReadOnly, Category="Attribute")
 	FGameplayAttributeData MaxManaPoints;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxManaPoints);
 
 	UFUNCTION()
 	void OnRep_MaxManaPoints(const FGameplayAttributeData& OldMaxManaPoints) const;
+
+	// + StaminaPoints Property
+	UPROPERTY(ReplicatedUsing=OnRep_StaminaPoints, BlueprintReadOnly, Category="Attribute")
+	FGameplayAttributeData StaminaPoints;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, StaminaPoints);
+
+	UFUNCTION()
+	void OnRep_StaminaPoints(const FGameplayAttributeData& OldStaminaPoints) const;
+
+	// + MaxStaminaPoints Property
+	UPROPERTY(ReplicatedUsing=OnRep_MaxStaminaPoints, BlueprintReadOnly, Category="Attribute")
+	FGameplayAttributeData MaxStaminaPoints;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxStaminaPoints);
+
+	UFUNCTION()
+	void OnRep_MaxStaminaPoints(const FGameplayAttributeData& OldMaxStaminaPoints) const;
 	
 	// End Properties
 };
