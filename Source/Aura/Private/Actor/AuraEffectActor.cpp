@@ -28,9 +28,9 @@ void AAuraEffectActor::BeginPlay()
 	Super::BeginPlay();
 
 	//~ Setting Gameplay Effect Object Duration Type
-	if (GetGameplayEffectObject())
+	if (GetPrimaryGameplayEffectObject())
 	{
-		if (const UGameplayEffect* GameplayEffect = GetGameplayEffectObject()->GetDefaultObject<UGameplayEffect>())
+		if (const UGameplayEffect* GameplayEffect = GetPrimaryGameplayEffectObject()->GetDefaultObject<UGameplayEffect>())
 		{
 			SetGameplayEffectDurationType(GameplayEffect->DurationPolicy);
 		}
@@ -57,7 +57,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplay
 
 		// + No Idea
 		const FGameplayEffectSpecHandle EffectSpecHandle = TargetAbilitySystemComponent->
-		MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
+		MakeOutgoingSpec(GameplayEffectClass, GetActorLevel(), EffectContextHandle);
 
 		// + Applying Gameplay Effect
 		 const FActiveGameplayEffectHandle ActiveGameplayEffectHandle =
@@ -79,12 +79,12 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplay
  */
 void AAuraEffectActor::GameplayEffectOnOverlap(AActor* Target)
 {
-	checkf(GetGameplayEffectObject(), TEXT("GameplayEffectObject is null, Please Add Gameplay Effects"))
+	checkf(GetPrimaryGameplayEffectObject(), TEXT("GameplayEffectObject is null, Please Add Gameplay Effects"))
 
 	//~ Applying Polices
 	if (GetEffectApplicationPolicy() == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(Target, GetGameplayEffectObject());
+		ApplyEffectToTarget(Target, GetPrimaryGameplayEffectObject());
 	}
 }
 
@@ -95,12 +95,12 @@ void AAuraEffectActor::GameplayEffectOnOverlap(AActor* Target)
  */
 void AAuraEffectActor::GameplayEffectOnEndOverlap(AActor* Target)
 {
-	checkf(GetGameplayEffectObject(), TEXT("GameplayEffectObject is null, Please Add Gameplay Effects"))
+	checkf(GetPrimaryGameplayEffectObject(), TEXT("GameplayEffectObject is null, Please Add Gameplay Effects"))
 
 	//~ Applying Polices
 	if (GetEffectApplicationPolicy() == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(Target, GetGameplayEffectObject());
+		ApplyEffectToTarget(Target, GetPrimaryGameplayEffectObject());
 	}
 
 	//~ Removal Policies

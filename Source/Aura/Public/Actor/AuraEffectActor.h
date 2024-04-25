@@ -45,7 +45,7 @@ class AURA_API AAuraEffectActor : public AActor
 
 	//? Meta Information
 	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
-	TSubclassOf<UGameplayEffect> GameplayEffectObject;
+	TSubclassOf<UGameplayEffect> PrimaryGameplayEffectObject;
 	
 	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
 	EEffectApplicationPolicy EffectApplicationPolicy = EEffectApplicationPolicy::ApplyOnOverlap;
@@ -55,6 +55,9 @@ class AURA_API AAuraEffectActor : public AActor
 	
 	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
 	bool bDestroyOnEffectRemoval = false;
+
+	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
+	float ActorLevel { 1.f };
 
 	UPROPERTY(VisibleAnywhere)
 	EGameplayEffectDurationType GameplayEffectDurationType;
@@ -81,7 +84,10 @@ protected:
 	// End Gameplay Effects 
 
 	//? Meta Information Setters and Getters
-	FORCEINLINE TSubclassOf<UGameplayEffect> GetGameplayEffectObject() const { return GameplayEffectObject; }
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetPrimaryGameplayEffectObject() const { return PrimaryGameplayEffectObject; }
+
+	FORCEINLINE float GetActorLevel() const { return ActorLevel; }
+	FORCEINLINE void SetActorLevel(const float Level) { ActorLevel = Level; }
 
 	FORCEINLINE bool IsDestroyOnEffectRemoval() const { return bDestroyOnEffectRemoval; }
 

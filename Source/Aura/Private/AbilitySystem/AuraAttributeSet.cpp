@@ -137,15 +137,15 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	PopulateEffectProperties(Data);
+	
 }
 
+//? Store Post Effect Execute Data
 void UAuraAttributeSet::PopulateEffectProperties(const FGameplayEffectModCallbackData& Data)
 {
 	SetEffectContextHandle(Data);
-	SetEffectProperty(EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent(),
-		SourceEffectProperty);
+	SetEffectProperty(EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent(), SourceEffectProperty);
 	SetEffectProperty(&Data.Target, TargetEffectProperty);
-	
 }
 
 // End Post Changes
