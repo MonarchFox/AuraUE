@@ -20,23 +20,26 @@ class AURA_API AAuraAOEBase : public AAuraEffectActor
 
 	//? Meta Information
 	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
-	TSubclassOf<UGameplayEffect> AOEGameplayEffect;
-
-	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UNiagaraComponent> NiagaraComponent;
+
+	//? Meta Function (Replace On Inheritance)
+	UFUNCTION()
+	void OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnComponentOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 public:
 	AAuraAOEBase();
 
-	UFUNCTION()
-	void OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	//? Getters
-	FORCEINLINE TSubclassOf<UGameplayEffect> GetAOEGameplayEffect() const { return AOEGameplayEffect; }
+	//! Must Override On Inheritance
+	virtual void InitOverlapDelegation();
 	
 protected:
 	virtual void BeginPlay() override;
 
+	//~ Body Components
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> SceneComponent;
 

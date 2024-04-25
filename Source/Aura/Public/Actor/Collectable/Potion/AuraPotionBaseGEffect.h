@@ -36,8 +36,4 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> PotionCollisionComponent;
-
-	//~ GameplayEffects
-	UPROPERTY(EditAnywhere, Category="Custom")
-	TSubclassOf<UGameplayEffect> PotionEffect;
 };

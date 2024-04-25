@@ -24,6 +24,8 @@ AAuraPotionBaseGEffect::AAuraPotionBaseGEffect()
 void AAuraPotionBaseGEffect::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	//~ Binding Collision Properties
 	PotionCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &AAuraPotionBaseGEffect::OnSphereOverlapBegin);
 }
 
@@ -32,7 +34,7 @@ void AAuraPotionBaseGEffect::OnSphereOverlapBegin(UPrimitiveComponent* Overlappe
 {
 	if (AAuraCharacter* PlayerCharacter = Cast<AAuraCharacter>(OtherActor))
 	{
-		ApplyEffectToTarget(OtherActor, PotionEffect);
+		GameplayEffectOnOverlap(OtherActor);
 		Destroy();
 	}
 }

@@ -3,7 +3,6 @@
 
 #include "Actor/AreaOfEffect/AuraAOEBase.h"
 #include "NiagaraComponent.h"
-#include "Character/AuraCharacter.h"
 #include "Components/SphereComponent.h"
 
 
@@ -26,14 +25,25 @@ AAuraAOEBase::AAuraAOEBase()
 void AAuraAOEBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// + Binding Collision Properties
+	InitOverlapDelegation();
+}
+
+void AAuraAOEBase::InitOverlapDelegation()
+{
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAuraAOEBase::OnComponentOverlapBegin);
+	SphereComponent->OnComponentEndOverlap.AddDynamic(this, &AAuraAOEBase::OnComponentOverlapEnd);
 }
 
 void AAuraAOEBase::OnComponentOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (AAuraCharacter* PlayerCharacter = Cast<AAuraCharacter>(OtherActor))
-	{
-		ApplyEffectToTarget(OtherActor, GetAOEGameplayEffect());
-	}
+	GameplayEffectOnOverlap(OtherActor);
+}
+
+void AAuraAOEBase::OnComponentOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	GameplayEffectOnEndOverlap(OtherActor);
 }
