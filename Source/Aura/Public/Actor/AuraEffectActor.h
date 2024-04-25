@@ -82,16 +82,14 @@ protected:
 
 	//? Meta Information Setters and Getters
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetGameplayEffectObject() const { return GameplayEffectObject; }
-	
-	FORCEINLINE void SetEffectApplicationPolicy(const EEffectApplicationPolicy Policy) { EffectApplicationPolicy = Policy; }
-	FORCEINLINE EEffectApplicationPolicy GetEffectApplicationPolicy() const { return EffectApplicationPolicy; }
 
-	FORCEINLINE void SetEffectRemovalPolicy(const EEffectRemovalPolicy Policy) { EffectRemovalPolicy = Policy; }
-	FORCEINLINE EEffectRemovalPolicy GetEffectRemovalPolicy() const { return EffectRemovalPolicy; }
-
-	FORCEINLINE void IsDestroyOnEffectRemoval(const bool Policy) { bDestroyOnEffectRemoval = Policy; }
 	FORCEINLINE bool IsDestroyOnEffectRemoval() const { return bDestroyOnEffectRemoval; }
 
+	//~ Effect Policies
+	FORCEINLINE EEffectApplicationPolicy GetEffectApplicationPolicy() const { return EffectApplicationPolicy; }
+	FORCEINLINE EEffectRemovalPolicy GetEffectRemovalPolicy() const { return EffectRemovalPolicy; }
+
+	//~ Local GameplayEffect Duration Policy
 	FORCEINLINE void SetGameplayEffectDurationType(const EGameplayEffectDurationType Type) { GameplayEffectDurationType = Type; }
 	FORCEINLINE EGameplayEffectDurationType GetGameplayEffectDurationType() const { return GameplayEffectDurationType; }
 };

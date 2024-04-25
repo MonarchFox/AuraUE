@@ -2,6 +2,10 @@
 
 
 #include "AbilitySystem/AuraAttributeSet.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "GameplayEffectExtension.h"
+#include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -75,8 +79,6 @@ void UAuraAttributeSet::OnRep_MaxStaminaPoints(const FGameplayAttributeData& Old
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxStaminaPoints, OldMaxStaminaPoints);
 }
-
-// + All Attribute Replication Properties Setup
 /**
  * GetLifetimeReplicatedProps function for setting up the replicated properties of the UAuraAttributeSet class.
  *
@@ -107,3 +109,99 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 }
 
 // End Replications
+
+// Section Pre-Changes
+
+/**
+ * Notify function called before an attribute is changed.
+ *
+ * @param Attribute The attribute being changed.
+ * @param NewValue The new value of the attribute.
+ */
+void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	if (Attribute == GetHitPointsAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHitPoints());
+	}
+	if (Attribute == GetManaPointsAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxManaPoints());
+	}
+}
+
+// End Pre-Changes
+
+// Section Post Changes
+
+void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	PopulateEffectProperties(Data);
+}
+
+void UAuraAttributeSet::PopulateEffectProperties(const FGameplayEffectModCallbackData& Data)
+{
+	SetEffectContextHandle(Data);
+	SetEffectProperty(EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent(),
+		SourceEffectProperty);
+	SetEffectProperty(&Data.Target, TargetEffectProperty);
+	
+}
+
+// End Post Changes
+
+
+// Section Helper Methods
+
+//~ Set Effect Properties
+void UAuraAttributeSet::SetEffectProperty(UAbilitySystemComponent* AbilitySystemComponent, FEffectProperty& EffectProperty)
+{
+	if (AbilitySystemComponent->AbilityActorInfo.IsValid() && AbilitySystemComponent->GetAvatarActor())
+	{
+		EffectProperty.AbilitySystemComponent = AbilitySystemComponent;
+		EffectProperty.AvtarActor = AbilitySystemComponent->GetAvatarActor();
+		EffectProperty.Controller = GetController(AbilitySystemComponent);
+		EffectProperty.Character = GetCharacter(EffectProperty.Controller);
+	}
+}
+
+//~ GetAbility System
+UAbilitySystemComponent* UAuraAttributeSet::GetAbilitySystemComponent(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	return EffectContextHandle.GetOriginalInstigatorAbilitySystemComponent();
+}
+
+//~ Get Character
+ACharacter* UAuraAttributeSet::GetCharacter(const UAbilitySystemComponent* AbilitySystemComponent)
+{
+	if (const AController* Controller = GetController(AbilitySystemComponent))
+	{
+		return GetCharacter(Controller);
+	}
+	return nullptr;
+}
+
+ACharacter* UAuraAttributeSet::GetCharacter(const AController* Controller)
+{
+	return Cast<ACharacter>(Controller->GetPawn());
+}
+
+//~ Get Controller
+AController* UAuraAttributeSet::GetController(const UAbilitySystemComponent* AbilitySystemComponent)
+{
+	if (AController* TempController = AbilitySystemComponent->AbilityActorInfo->PlayerController.Get())
+		return TempController;
+	
+	const AActor* AvatarActor = AbilitySystemComponent->AbilityActorInfo->AvatarActor.Get();
+	return GetController(AvatarActor);
+}
+
+//~ Get Controller Overload
+AController* UAuraAttributeSet::GetController(const AActor* Actor)
+{
+	if (const APawn* Pawn = Cast<APawn>(Actor))
+	{
+		return Pawn->GetController();
+	}
+	return nullptr;
+}
