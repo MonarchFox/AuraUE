@@ -40,6 +40,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void InitAbilityActorInfo();
 
 	//~ Gameplay Ability System Components
 	UPROPERTY(VisibleAnywhere)
@@ -51,8 +52,8 @@ protected:
 	
 	// Section Cosmetics References
 	
-	UPROPERTY(EditAnywhere, Category="Combat")
-	TObjectPtr<USkeletalMeshComponent> WeaponComponent;
+	UPROPERTY(EditAnywhere, Category="Combat", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UStaticMeshComponent> WeaponComponent;
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName WeaponComponentSocketName { "WeaponHandSocket" };

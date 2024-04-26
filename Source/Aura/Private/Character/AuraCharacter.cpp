@@ -4,6 +4,7 @@
 #include "Character/AuraCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -95,10 +96,16 @@ void AAuraCharacter::InitAbilityActorInfo()
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 
+	//+ Getting and Setting Ability System Component to Avtar Character
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
-
+	
 	SetAbilitySystemComponent(AuraPlayerState->GetAbilitySystemComponent());
-	SetAttributeSet( AuraPlayerState->GetAttributeSet());
+	SetAttributeSet(AuraPlayerState->GetAttributeSet());
+
+
+	//+ Delegating
+	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
+
 
 	// + Setting Up HUD
 	if (AAuraPlayerController* AuraPlayerController  = Cast<AAuraPlayerController>(GetController()))

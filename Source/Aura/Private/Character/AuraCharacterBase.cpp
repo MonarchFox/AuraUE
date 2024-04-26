@@ -9,7 +9,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 
 	// Section StaticMeshComponents Constructor
 
-	WeaponComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponComponent");
+	WeaponComponent = CreateDefaultSubobject<UStaticMeshComponent>("WeaponComponent");
 	WeaponComponent->SetupAttachment(GetMesh(), WeaponComponentSocketName);
 	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	
@@ -19,4 +19,9 @@ AAuraCharacterBase::AAuraCharacterBase()
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AAuraCharacterBase::InitAbilityActorInfo()
+{
+	
 }
