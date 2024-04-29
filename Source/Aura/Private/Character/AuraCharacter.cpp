@@ -60,8 +60,11 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	// Init Ability Actor info for the server
+	//Init Ability Actor info for the server
 	InitAbilityActorInfo();
+
+	//! Must be called after setting up ability system component
+	InitialPrimaryAttribute();
 }
 
 /**

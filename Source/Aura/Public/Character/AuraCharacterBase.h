@@ -10,22 +10,28 @@
 #include "AuraCharacterBase.generated.h"
 
 
-/*
- *		!Base Character Class
- */
 
-
+class UGameplayEffect;
 class UAttributeSet;
 class UAbilitySystemComponent;
 
 
+/**
+ *	Character Base Class
+ */
 UCLASS(Abstract, NotBlueprintable)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
 	//? meta information
+
+	/** + Replication meta information */
     bool ReplicationRequired { true };
+
+	/** +Attributes meta information */
+	UPROPERTY(EditAnywhere, Category="Attribute|Primary", BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttribute;
 
 public:
 	AAuraCharacterBase();
@@ -36,6 +42,8 @@ public:
 
 	FORCEINLINE UAttributeSet* GetAttributeSet () const { return PAttributeSet; }
 	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet) { PAttributeSet = AttributeSet; }
+
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultPrimaryAttribute() const { return DefaultPrimaryAttribute; }
 
 
 protected:
@@ -59,6 +67,9 @@ protected:
 	FName WeaponComponentSocketName { "WeaponHandSocket" };
 
 	// End
+
+	//~ Initial Attribute Setter
+	void InitialPrimaryAttribute() const;
 
 public:
 		

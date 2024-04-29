@@ -84,8 +84,9 @@ protected:
 	// End Gameplay Effects 
 
 	//? Meta Information Setters and Getters
+	UFUNCTION(BlueprintCallable)
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetPrimaryGameplayEffectObject() const { return PrimaryGameplayEffectObject; }
-
+	
 	FORCEINLINE float GetActorLevel() const { return ActorLevel; }
 	FORCEINLINE void SetActorLevel(const float Level) { ActorLevel = Level; }
 

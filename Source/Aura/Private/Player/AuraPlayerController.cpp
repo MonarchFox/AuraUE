@@ -39,15 +39,15 @@ void AAuraPlayerController::InitController() const
 void AAuraPlayerController::InitCursor()
 {
 	// !Initialize Controller Mouse Cursor
+	// TODO: Add Aiming System
+	// bShowMouseCursor = true;
+	//DefaultMouseCursor = EMouseCursor::Default;
 	
-	bShowMouseCursor = true;
-	DefaultMouseCursor = EMouseCursor::Default;
-
-	FInputModeGameAndUI InputModeData;
-	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	InputModeData.SetHideCursorDuringCapture(false);
-
-	SetInputMode(InputModeData);
+	//FInputModeGameAndUI InputModeData;
+	// InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	//InputModeData.SetHideCursorDuringCapture(false);
+	
+	//SetInputMode(InputModeData);
 }
 
 // End Initial Setups
@@ -65,6 +65,8 @@ void AAuraPlayerController::SetupInputComponent()
 
 	EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered,
 		this, &AAuraPlayerController::MoveAction);
+	EnhancedInputComponent->BindAction(MouseInputAction, ETriggerEvent::Triggered, this,
+		&AAuraPlayerController::MouseAction);
 	
 }
 
@@ -87,6 +89,14 @@ void AAuraPlayerController::MoveAction(const FInputActionValue& Action)
 		ControlledPawn->AddMovementInput(ForwardDirection, ActionInput.Y);
 		ControlledPawn->AddMovementInput(RightDirection, ActionInput.X);
 	}
+}
+
+void AAuraPlayerController::MouseAction(const FInputActionValue& Action)
+{
+	const FVector2d LookInput = Action.Get<FVector2d>();
+	
+	AddYawInput(LookInput.X);
+	AddPitchInput(LookInput.Y);
 }
 
 // End Input Setups

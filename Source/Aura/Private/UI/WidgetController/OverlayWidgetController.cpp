@@ -40,8 +40,6 @@ void UOverlayWidgetController::BroadcastInitialValues()
  *
  * @see UAuraAttributeSet
  * @see GetGameplayAttributeValueChangeDelegate()
- * @see HealthChanged()
- * @see MaxHealthChanged()
  *
  * @note This method is called as part of the initialization process in the UOverlayWidgetController class.
  */
@@ -52,98 +50,58 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	const UAuraAttributeSet* AuraAttributes = CastChecked<UAuraAttributeSet>(AttributeSet);
 	
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetHitPointsAttribute())
-	.AddUObject(this, &UOverlayWidgetController::HealthChanged);
+	.AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			AttributeBroadcast<const FOnAttributeChangeData>(Data, OnHealthChanged);
+		}
+	);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetMaxHitPointsAttribute())
-	.AddUObject(this, &UOverlayWidgetController::MaxHealthChanged);
+	.AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			AttributeBroadcast<const FOnAttributeChangeData>(Data, OnMaxHealthChanged);
+		}
+	);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetManaPointsAttribute())
-	.AddUObject(this, &UOverlayWidgetController::ManaChanged);
+	.AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			AttributeBroadcast<const FOnAttributeChangeData>(Data, OnManaChanged);
+		}
+	);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AuraAttributes->GetMaxManaPointsAttribute())
-	.AddUObject(this, &UOverlayWidgetController::MaxManaChanged);
+	.AddLambda(
+		[this](const FOnAttributeChangeData& Data)
+		{
+			AttributeBroadcast<const FOnAttributeChangeData>(Data, OnMaxManaChanged);
+		}
+	);
 	
 	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags)
 		{
-			for (const FGameplayTag& Tag: AssetTags)
-			{
-				//~ Broadcasting Row if parent tag matches
-				if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Message"))))
-				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(GetMessageWidgetDataTable(), Tag);
-					if (!Row)
-					{
-						GEngine->AddOnScreenDebugMessage(0, 5, FColor::Emerald, TEXT("ROW IS NULL!!"));
-					}
-					else MessageDelegate.Broadcast(*Row);
-				}
-			}
+			BroadcastWidgetRow(AssetTags, FName("Message"));
 		}
 	);
 }
 
 /**
- * @brief Handles the HealthChanged event.
- *
- * This method is called when the Health attribute changes. It broadcasts the new health value using the
- * OnHealthChanged event.
- *
- * @param Data The data object containing the new health value.
- *
- * @see OnHealthChanged
- * @see FOnAttributeChangeData
+ *		Delegate Message to Overlay if Tag is under Parent Tag
+ *		@note specific to `FUIWidgetRow` only
  */
-void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const
+void UOverlayWidgetController::BroadcastWidgetRow(const FGameplayTagContainer& AssetTags, const FName ParentName) const
 {
-	OnHealthChanged.Broadcast(Data.NewValue);
-}
-
-/**
- * @brief Callback function that gets triggered when the maximum health attribute changes.
- *
- * This function is called when the maximum health attribute changes. It broadcasts the new value
- * using the OnMaxHealthChanged event.
- *
- * @param Data The attribute change data containing the new value.
- *
- * @see OnMaxHealthChanged
- */
-void UOverlayWidgetController::MaxHealthChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxHealthChanged.Broadcast(Data.NewValue);
-}
-
-/**
- * @brief Broadcasts the updated mana value.
- *
- * This method broadcasts the updated mana value by calling the OnManaChanged event.
- *
- * @param Data The data containing the new mana value.
- *
- * @see FOnAttributeChangeData
- * @see OnManaChanged
- *
- * @note This method is called in response to a mana attribute change in the game.
- */
-void UOverlayWidgetController::ManaChanged(const FOnAttributeChangeData& Data) const
-{
-	OnManaChanged.Broadcast(Data.NewValue);
-}
-
-/**
- * @brief Broadcasts the change in maximum mana.
- *
- * This method broadcasts the change in maximum mana by calling the OnMaxManaChanged event with the new mana value.
- *
- * @param Data The data containing the new mana value.
- *
- * @see FOnAttributeChangeData
- * @see UAuraWidgetController
- *
- * @note This method is called when the maximum mana attribute changes.
- */
-void UOverlayWidgetController::MaxManaChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxManaChanged.Broadcast(Data.NewValue);
+	for (const FGameplayTag& Tag: AssetTags)
+	{
+		//~ Broadcasting Row if parent tag matches
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(ParentName)))
+		{
+			const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(GetMessageWidgetDataTable(), Tag);
+			MessageDelegate.Broadcast(*Row);
+		}
+	}
 }

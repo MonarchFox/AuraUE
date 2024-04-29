@@ -57,9 +57,13 @@ private:
 	UPROPERTY(EditAnywhere, Category="Player Input")
 	TObjectPtr<UInputAction> MoveInputAction;
 
+	UPROPERTY(EditAnywhere, Category="Player Input")
+	TObjectPtr<UInputAction> MouseInputAction;
+
 	// Sub-Section Input Methods
 
 	void MoveAction(const FInputActionValue& Action);
+	void MouseAction(const FInputActionValue& Action);
 	
 	// End Section Inputs
 
@@ -67,8 +71,8 @@ private:
 
 	// Sub-Section Enemy Interface
 	
-	IEnemyInterface* LastActor;
-	IEnemyInterface* CurrentActor;
+	IEnemyInterface* LastActor = nullptr;
+	IEnemyInterface* CurrentActor = nullptr;
 
 	void CursorTrace();
 	void StepActor(const FHitResult& CHit);

@@ -21,7 +21,100 @@ UAuraAttributeSet::UAuraAttributeSet()
 	InitMaxManaPoints(200.f);
 }
 
-// Section Replications
+	
+/**
+ *
+ *			Section Attributes Replication
+ * 
+ */
+
+/**
+ * GetLifetimeReplicatedProps function for setting up the replicated properties of the UAuraAttributeSet class.
+ *
+ * @param OutLifetimeProps A reference to an array of FLifetimeProperty objects that will store the replicated properties.
+ *                         Any replicated properties added to this array will be automatically replicated to the clients.
+ *                         This parameter is modified and should be passed by reference.
+ * @return void
+ *
+ * @see UAuraAttributeSet
+ */
+void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	// !Replication Properties Setup
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	// + Health Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HitPoints, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHitPoints, COND_None, REPNOTIFY_Always);
+
+	// + Mana Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaPoints, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxManaPoints, COND_None, REPNOTIFY_Always);
+	
+	// + Stamina Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaminaPoints, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxStaminaPoints, COND_None, REPNOTIFY_Always);
+
+	// + Strength Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+
+	// + Constitution Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Constitution, COND_None, REPNOTIFY_Always);
+
+	// + Resilience Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Focus, COND_None, REPNOTIFY_Always);
+
+	// + Intelligence Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
+
+	// + Dexterity
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Dexterity, COND_None, REPNOTIFY_Always);
+
+	// + Luck
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Luck, COND_None, REPNOTIFY_Always);
+}
+
+/** + Strength: Represents physical damage */
+void UAuraAttributeSet::OnRep_Strength(const FGameplayAttributeData& STR) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Strength, STR);
+}
+
+/** + Constitution: Represent Health Capacity and Body Defense */
+void UAuraAttributeSet::OnRep_Constitution(const FGameplayAttributeData& CON) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Constitution, CON);
+}
+
+/** + Dexterity: Represent Health Capacity and Body Defense */
+void UAuraAttributeSet::OnRep_Dexterity(const FGameplayAttributeData& DEX) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Dexterity, DEX);
+}
+
+/** + Intelligence Represent Magical damage and Mana Capacity */
+void UAuraAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& INT) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Intelligence, INT);
+}
+
+/** + FOCUS Increases Healing and Buff strength */
+void UAuraAttributeSet::OnRep_Focus(const FGameplayAttributeData& FOC) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Focus, FOC);
+}
+
+/** + LUCK Makes you Lucky */
+void UAuraAttributeSet::OnRep_Luck(const FGameplayAttributeData& LUC) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Luck, LUC);
+}
+
+
+
+
+
+/** Section Vital Attributes **/
 
 // + HitPoints Attribute Replication
 /**
@@ -79,34 +172,7 @@ void UAuraAttributeSet::OnRep_MaxStaminaPoints(const FGameplayAttributeData& Old
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxStaminaPoints, OldMaxStaminaPoints);
 }
-/**
- * GetLifetimeReplicatedProps function for setting up the replicated properties of the UAuraAttributeSet class.
- *
- * @param OutLifetimeProps A reference to an array of FLifetimeProperty objects that will store the replicated properties.
- *                         Any replicated properties added to this array will be automatically replicated to the clients.
- *                         This parameter is modified and should be passed by reference.
- * @return void
- *
- * @see UAuraAttributeSet
- */
-void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
-{
-	// !Replication Properties Setup
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// + Health Attribute Setup
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HitPoints, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHitPoints, COND_None, REPNOTIFY_Always);
-
-	// + Mana Attribute Setup
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaPoints, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxManaPoints, COND_None, REPNOTIFY_Always);
-
-
-	// + Stamina Attribute Setup
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaminaPoints, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxStaminaPoints, COND_None, REPNOTIFY_Always);
-}
 
 // End Replications
 
@@ -137,7 +203,11 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	PopulateEffectProperties(Data);
-	
+
+	if (Data.EvaluatedData.Attribute == GetHitPointsAttribute())
+	{
+		SetHitPoints(FMath::Clamp(GetHitPoints(), 0, GetMaxHitPoints()));
+	}
 }
 
 //? Store Post Effect Execute Data
