@@ -41,4 +41,3 @@ void AAuraCharacterBase::InitAbilityActorInfo()
 {
 	
 }
-

@@ -38,6 +38,7 @@ UAuraAttributeSet::UAuraAttributeSet()
  *
  * @see UAuraAttributeSet
  */
+// TODO: Add Left Over Attributes
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	// !Replication Properties Setup
@@ -105,11 +106,10 @@ void UAuraAttributeSet::OnRep_Focus(const FGameplayAttributeData& FOC) const
 }
 
 /** + LUCK Makes you Lucky */
-void UAuraAttributeSet::OnRep_Luck(const FGameplayAttributeData& LUC) const
+void UAuraAttributeSet::OnRep_Luck(const FGameplayAttributeData& NewValue) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Luck, LUC);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Luck, NewValue);
 }
-
 
 
 

@@ -15,6 +15,7 @@
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 
+
 //? Forward Declarations
 struct FGameplayEffectContextHandle;
 class UAbilitySystemComponent;
@@ -58,7 +59,7 @@ UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
-
+-*
 	//? Meta Information
 	FGameplayEffectContextHandle EffectContextHandle;
 	FEffectProperty SourceEffectProperty;
@@ -79,6 +80,7 @@ public:
 	 *			Section Primary Attributes
 	 * 
 	 */
+
 
 	/** + Strength: Represents physical damage */
 	UPROPERTY(ReplicatedUsing=OnRep_Strength, BlueprintReadOnly, Category="Attribute|Primary")
@@ -121,6 +123,167 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Luck);
 	UFUNCTION()
 	void OnRep_Luck(const FGameplayAttributeData& LUC) const;
+
+
+	//			End Primary Attributes
+
+	/**
+	 *
+	 *			Section Secondary Attributes
+	 * 
+	 */
+
+	/** + Armor  Makes*/
+	UPROPERTY(ReplicatedUsing=OnRep_Armor, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Armor);
+	UFUNCTION()
+	void OnRep_Armor(const FGameplayAttributeData& NewValue) const;
+	
+
+	/** + ArmorPenetration */
+	UPROPERTY(ReplicatedUsing=OnRep_ArmorPenetration, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorPenetration);
+	UFUNCTION()
+	void OnRep_ArmorPenetration(const FGameplayAttributeData& NewValue) const;
+
+
+	/** + CriticalChance */
+	UPROPERTY(ReplicatedUsing=OnRep_CriticalChance, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData CriticalChance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalChance);
+	UFUNCTION()
+	void OnRep_CriticalChance(const FGameplayAttributeData& NewValue) const;
+
+
+	/** + CriticalDamage */
+	UPROPERTY(ReplicatedUsing=OnRep_CriticalDamage, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData CriticalDamage;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalDamage);
+	UFUNCTION()
+	void OnRep_CriticalDamage(const FGameplayAttributeData& NewValue) const;
+
+	/** + CriticalResistance */
+	UPROPERTY(ReplicatedUsing=OnRep_CriticalResistance, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData CriticalResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalResistance);
+	UFUNCTION()
+	void OnRep_CriticalResistance(const FGameplayAttributeData& NewValue) const;
+
+	/** + HealthRegeneration */
+	UPROPERTY(ReplicatedUsing=OnRep_Focus, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData HealthRegeneration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegeneration);
+	UFUNCTION()
+	void OnRep_HealthRegeneration(const FGameplayAttributeData& NewValue) const;
+
+	/** + ManaRegeneration */
+	UPROPERTY(ReplicatedUsing=OnRep_ManaRegeneration, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData ManaRegeneration;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
+	UFUNCTION()
+	void OnRep_ManaRegeneration(const FGameplayAttributeData& NewValue) const;
+
+	/** + Stun duration on receive */
+	UPROPERTY(ReplicatedUsing=OnRep_Stun, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData Stun;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Stun);
+	UFUNCTION()
+	void OnRep_Stun(const FGameplayAttributeData& NewValue) const;
+	
+	/** + Refresh refreshes from
+	 * + Crowd effect attacks 
+	 *	+ ArmourBreak
+	 *	+ WillPower Break
+	 */
+	UPROPERTY(ReplicatedUsing=OnRep_Refresh, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData Refresh;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Refresh);
+	UFUNCTION()
+	void OnRep_Refresh(const FGameplayAttributeData& NewValue) const;
+	
+	/** + on ArmorBreak (takes more damage for some time) */
+	UPROPERTY(ReplicatedUsing=OnRep_ArmorBreak, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData ArmorBreak;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorBreak);
+	UFUNCTION()
+	void OnRep_ArmorBreak(const FGameplayAttributeData& NewValue) const;
+	
+	/** + on WillPower break **/
+	UPROPERTY(ReplicatedUsing=OnRep_WillPower, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData WillPower;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WillPower);
+	UFUNCTION()
+	void OnRep_WillPower(const FGameplayAttributeData& NewValue) const;
+
+	//? Secondary Types will be used for items
+	/** + FireType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_FireType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData FireType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, FireType);
+	UFUNCTION()
+	void OnRep_FireType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + IceType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_IceType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData IceType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IceType);
+	UFUNCTION()
+	void OnRep_IceType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + WaterType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_WaterType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData WaterType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WaterType);
+	UFUNCTION()
+	void OnRep_WaterType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + ElectricType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_ElectricType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData ElectricType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ElectricType);
+	UFUNCTION()
+	void OnRep_ElectricType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + WindType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_WindType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData WindType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WindType);
+	UFUNCTION()
+	void OnRep_WindType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + GrassType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_GrassType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData GrassType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, GrassType);
+	UFUNCTION()
+	void OnRep_GrassType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + ArcaneType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_ArcaneType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData ArcaneType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArcaneType);
+	UFUNCTION()
+	void OnRep_ArcaneType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + VoidType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_VoidType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData VoidType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, VoidType);
+	UFUNCTION()
+	void OnRep_VoidType(const FGameplayAttributeData& NewValue) const;
+	
+	/** + WILLType Resistance and Attack */
+	UPROPERTY(ReplicatedUsing=OnRep_WILLType, BlueprintReadOnly, Category="Attribute|Primary")
+	FGameplayAttributeData WILLType;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WILLType);
+	UFUNCTION()
+	void OnRep_WILLType(const FGameplayAttributeData& NewValue) const;
+
+	
+	// End Secondary Attributes
+
 	
 	/**
 	 *
@@ -170,7 +333,7 @@ public:
 	UFUNCTION()
 	void OnRep_MaxStaminaPoints(const FGameplayAttributeData& OldMaxStaminaPoints) const;
 
-	//			End Attributes
+	//			End Vital Attributes
 
 protected:
 	//			Section Helper Methods
