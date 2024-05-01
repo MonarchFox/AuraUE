@@ -1,8 +1,6 @@
 // Coded By MonarchFox
 
-
 #include "AbilitySystem/AuraAttributeSet.h"
-
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
@@ -12,7 +10,7 @@
 UAuraAttributeSet::UAuraAttributeSet()
 {
 	// !Defaults
-
+	
 	//? For Debug Purpose Only
 	InitHitPoints(50.f);
 	InitMaxHitPoints(120.f);
@@ -20,11 +18,10 @@ UAuraAttributeSet::UAuraAttributeSet()
 	InitManaPoints(150.f);
 	InitMaxManaPoints(200.f);
 }
-
 	
 /**
  *
- *			Section Attributes Replication
+ *			Section Primary Attributes Replication
  * 
  */
 
@@ -44,35 +41,44 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	// !Replication Properties Setup
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// + Health Attribute Setup
+	// + Vita; Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HitPoints, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHitPoints, COND_None, REPNOTIFY_Always);
 
-	// + Mana Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaPoints, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxManaPoints, COND_None, REPNOTIFY_Always);
 	
-	// + Stamina Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, StaminaPoints, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxStaminaPoints, COND_None, REPNOTIFY_Always);
 
-	// + Strength Attribute Setup
+	// + Primary Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Strength, COND_None, REPNOTIFY_Always);
-
-	// + Constitution Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Constitution, COND_None, REPNOTIFY_Always);
-
-	// + Resilience Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Focus, COND_None, REPNOTIFY_Always);
-
-	// + Intelligence Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
-
-	// + Dexterity
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Dexterity, COND_None, REPNOTIFY_Always);
-
-	// + Luck
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Luck, COND_None, REPNOTIFY_Always);
+
+	// + Secondary Attribute Setup
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalDamage, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Stun, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Refresh, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArmorBreak, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, FireType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, IceType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, WaterType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ElectricType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, WindType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, GrassType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArcaneType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, VoidType, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, WILLType, COND_None, REPNOTIFY_Always);
 }
 
 /** + Strength: Represents physical damage */
@@ -111,10 +117,105 @@ void UAuraAttributeSet::OnRep_Luck(const FGameplayAttributeData& NewValue) const
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Luck, NewValue);
 }
 
+/** Section Secondary Attributes **/
 
+void UAuraAttributeSet::OnRep_Armor(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Armor, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ArmorPenetration, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_CriticalChance(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, CriticalChance, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_CriticalDamage(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, CriticalDamage, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_CriticalResistance(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, CriticalResistance, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HealthRegeneration, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ManaRegeneration, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_Stun(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Stun, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_Refresh(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Refresh, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_ArmorBreak(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ArmorBreak, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_FireType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, FireType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_IceType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, IceType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_WaterType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, WaterType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_ElectricType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ElectricType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_WindType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, WindType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_GrassType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, GrassType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_ArcaneType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ArcaneType, NewValue);
+}
+
+void UAuraAttributeSet::OnRep_VoidType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, VoidType, NewValue);
+}
 
 
 /** Section Vital Attributes **/
+
+void UAuraAttributeSet::OnRep_WILLType(const FGameplayAttributeData& NewValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, WILLType, NewValue);
+}
 
 // + HitPoints Attribute Replication
 /**

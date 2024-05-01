@@ -14,13 +14,11 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-
-
 //? Forward Declarations
 struct FGameplayEffectContextHandle;
 class UAbilitySystemComponent;
 
-/**
+/**s
  * @brief The FEffectProperty struct holds information about the source and target actors in an attribute change effect.
  *
  * The FEffectProperty struct is used to encapsulate information about the source and target actors in an attribute change effect.
@@ -59,7 +57,7 @@ UCLASS()
 class AURA_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
--*
+
 	//? Meta Information
 	FGameplayEffectContextHandle EffectContextHandle;
 	FEffectProperty SourceEffectProperty;
@@ -74,7 +72,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
-
+	
 	/**
 	 *
 	 *			Section Primary Attributes
@@ -140,51 +138,51 @@ public:
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& NewValue) const;
 	
-
+	
 	/** + ArmorPenetration */
 	UPROPERTY(ReplicatedUsing=OnRep_ArmorPenetration, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData ArmorPenetration;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorPenetration);
 	UFUNCTION()
 	void OnRep_ArmorPenetration(const FGameplayAttributeData& NewValue) const;
-
-
+	
+	
 	/** + CriticalChance */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalChance, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData CriticalChance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalChance);
 	UFUNCTION()
 	void OnRep_CriticalChance(const FGameplayAttributeData& NewValue) const;
-
-
+	
+	
 	/** + CriticalDamage */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalDamage, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData CriticalDamage;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalDamage);
 	UFUNCTION()
 	void OnRep_CriticalDamage(const FGameplayAttributeData& NewValue) const;
-
+	
 	/** + CriticalResistance */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalResistance, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData CriticalResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalResistance);
 	UFUNCTION()
 	void OnRep_CriticalResistance(const FGameplayAttributeData& NewValue) const;
-
+	
 	/** + HealthRegeneration */
 	UPROPERTY(ReplicatedUsing=OnRep_Focus, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData HealthRegeneration;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegeneration);
 	UFUNCTION()
 	void OnRep_HealthRegeneration(const FGameplayAttributeData& NewValue) const;
-
+	
 	/** + ManaRegeneration */
 	UPROPERTY(ReplicatedUsing=OnRep_ManaRegeneration, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData ManaRegeneration;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
 	UFUNCTION()
 	void OnRep_ManaRegeneration(const FGameplayAttributeData& NewValue) const;
-
+	
 	/** + Stun duration on receive */
 	UPROPERTY(ReplicatedUsing=OnRep_Stun, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData Stun;
@@ -210,13 +208,6 @@ public:
 	UFUNCTION()
 	void OnRep_ArmorBreak(const FGameplayAttributeData& NewValue) const;
 	
-	/** + on WillPower break **/
-	UPROPERTY(ReplicatedUsing=OnRep_WillPower, BlueprintReadOnly, Category="Attribute|Primary")
-	FGameplayAttributeData WillPower;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WillPower);
-	UFUNCTION()
-	void OnRep_WillPower(const FGameplayAttributeData& NewValue) const;
-
 	//? Secondary Types will be used for items
 	/** + FireType Resistance and Attack */
 	UPROPERTY(ReplicatedUsing=OnRep_FireType, BlueprintReadOnly, Category="Attribute|Primary")
