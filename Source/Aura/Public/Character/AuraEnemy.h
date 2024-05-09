@@ -22,6 +22,9 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Custom", meta=(AllowPrivateAccess="true"))
+	int32 PlayerLevel {1};
+	
 public:
 	AAuraEnemy();
 
@@ -32,6 +35,7 @@ protected:
 public:
 	// Section Interface
 
+	//~ Enemy Interface
 	virtual void HighLightActor() override;
 	virtual void UnHighLightActor() override;
 	void SetHighLightStencil(const float Value, const bool Status) const;
@@ -39,5 +43,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Custom")
 	int32 HighlightStencilValue { 250 };
 
+	//~ Combat Interface
+	virtual int32 GetPlayerLevel() const override { return PlayerLevel; }
 	// End Interface
 };

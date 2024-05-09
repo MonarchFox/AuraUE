@@ -29,13 +29,17 @@ class AURA_API AAuraPlayerState : public APlayerState, public IAbilitySystemInte
 	// ? meta information
 	float ClientUpdateFrequency { 100.f };
 	bool ReplicationRequired { true };
+
+	UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess="true"), ReplicatedUsing=OnRep_Level)
+	int32 PlayerLevel {1};
 	
 public:
 	AAuraPlayerState();
-	
-	//~ Gameplay Ability System Getters
-	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
-	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	//~ Replicable Functions
+	UFUNCTION()
+	void OnRep_Level(int32 OldLevel) const;
 	
 protected:
 
@@ -47,7 +51,14 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 public:
-	/** ? Other Getters */
+	/** ? Getters amd Setters */
+
+	//~ Gameplay Ability System Getters
+	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
+	//~ Replication Getters
 	FORCEINLINE float GetClientUpdateFrequency() const { return ClientUpdateFrequency; }
 	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
+	FORCEINLINE int32 GetPlayerLevel() const { return PlayerLevel; }
 };

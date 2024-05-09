@@ -6,6 +6,7 @@
 
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "Interaction/CombatInterface.h"
 
 #include "AuraCharacterBase.generated.h"
 
@@ -20,7 +21,9 @@ class UAbilitySystemComponent;
  *	Character Base Class
  */
 UCLASS(Abstract, NotBlueprintable)
-class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
+class AURA_API AAuraCharacterBase :	public ACharacter,
+									public IAbilitySystemInterface,
+									public ICombatInterface
 {
 	GENERATED_BODY()
 	
@@ -33,18 +36,11 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 	UPROPERTY(EditAnywhere, Category="Attribute|Primary", BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttribute;
 
+	UPROPERTY(EditAnywhere, Category="Attribute|Secondary", BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
+	TSubclassOf<UGameplayEffect> DefaultSecondaryAttribute;
+
 public:
 	AAuraCharacterBase();
-
-	//~ Getters and Setters For Gameplay Ability System
-	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return PAbilitySystemComponent; }
-	FORCEINLINE void SetAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent) { PAbilitySystemComponent = AbilitySystemComponent; }
-
-	FORCEINLINE UAttributeSet* GetAttributeSet () const { return PAttributeSet; }
-	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet) { PAttributeSet = AttributeSet; }
-
-	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultPrimaryAttribute() const { return DefaultPrimaryAttribute; }
-
 
 protected:
 	virtual void BeginPlay() override;
@@ -69,10 +65,24 @@ protected:
 	// End
 
 	//~ Initial Attribute Setter
-	void InitialPrimaryAttribute() const;
+	void InitGameplayEffectToSelf(const TSubclassOf<UGameplayEffect> AttributeEffect, const float Level) const;
+	void InitialDefaultAttributes() const;
 
 public:
 		
 	/** ? Getters */
+	
+
+	//~ Getters and Setters For Gameplay Ability System
+	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return PAbilitySystemComponent; }
+	FORCEINLINE void SetAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent) { PAbilitySystemComponent = AbilitySystemComponent; }
+
+	FORCEINLINE UAttributeSet* GetAttributeSet () const { return PAttributeSet; }
+	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet) { PAttributeSet = AttributeSet; }
+
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultPrimaryAttribute() const { return DefaultPrimaryAttribute; }
+	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultSecondaryAttribute() const { return DefaultSecondaryAttribute; }
+
+	//~ Replications
 	FORCEINLINE bool IsReplicationRequired() const { return ReplicationRequired; }
 };

@@ -12,13 +12,10 @@ UAuraAttributeSet::UAuraAttributeSet()
 	// !Defaults
 	
 	//? For Debug Purpose Only
-	InitHitPoints(50.f);
-	InitMaxHitPoints(120.f);
-
-	InitManaPoints(150.f);
-	InitMaxManaPoints(200.f);
+	InitHitPoints(100.f);
+	InitManaPoints(100.f);
 }
-	
+
 /**
  *
  *			Section Primary Attributes Replication

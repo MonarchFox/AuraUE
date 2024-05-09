@@ -137,7 +137,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Armor);
 	UFUNCTION()
 	void OnRep_Armor(const FGameplayAttributeData& NewValue) const;
-	
+	//? [(Cons * 0.15) + (Str * 0.02)] + 5 
 	
 	/** + ArmorPenetration */
 	UPROPERTY(ReplicatedUsing=OnRep_ArmorPenetration, BlueprintReadOnly, Category="Attribute|Primary")
@@ -145,7 +145,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorPenetration);
 	UFUNCTION()
 	void OnRep_ArmorPenetration(const FGameplayAttributeData& NewValue) const;
-	
+	//? [(Dex * .05) + (STR * 0.15)] + 5
 	
 	/** + CriticalChance */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalChance, BlueprintReadOnly, Category="Attribute|Primary")
@@ -153,7 +153,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalChance);
 	UFUNCTION()
 	void OnRep_CriticalChance(const FGameplayAttributeData& NewValue) const;
-	
+	//? (Dex * 0.15) + (WillType * 0.15) - (ArmorPenetration - Cons * 0.15)
 	
 	/** + CriticalDamage */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalDamage, BlueprintReadOnly, Category="Attribute|Primary")
@@ -161,6 +161,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalDamage);
 	UFUNCTION()
 	void OnRep_CriticalDamage(const FGameplayAttributeData& NewValue) const;
+	//? [(Dex * 0.15) + (WillType * 0.25) + (Str * .15)] * (Attack + 1) 
 	
 	/** + CriticalResistance */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalResistance, BlueprintReadOnly, Category="Attribute|Primary")
@@ -168,6 +169,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalResistance);
 	UFUNCTION()
 	void OnRep_CriticalResistance(const FGameplayAttributeData& NewValue) const;
+	//? Cons * 0.15 + WillType * 0.25 + str * 0.05
 	
 	/** + HealthRegeneration */
 	UPROPERTY(ReplicatedUsing=OnRep_Focus, BlueprintReadOnly, Category="Attribute|Primary")
@@ -175,6 +177,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegeneration);
 	UFUNCTION()
 	void OnRep_HealthRegeneration(const FGameplayAttributeData& NewValue) const;
+	//? Cons * 0.05 + 1
 	
 	/** + ManaRegeneration */
 	UPROPERTY(ReplicatedUsing=OnRep_ManaRegeneration, BlueprintReadOnly, Category="Attribute|Primary")
@@ -182,6 +185,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
 	UFUNCTION()
 	void OnRep_ManaRegeneration(const FGameplayAttributeData& NewValue) const;
+	//? INT * 0.05 + 1
 	
 	/** + Stun duration on receive */
 	UPROPERTY(ReplicatedUsing=OnRep_Stun, BlueprintReadOnly, Category="Attribute|Primary")
@@ -189,6 +193,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Stun);
 	UFUNCTION()
 	void OnRep_Stun(const FGameplayAttributeData& NewValue) const;
+	//? 1 / (1 - [(Refresh / 100) + willpower * 0.15)]
 	
 	/** + Refresh refreshes from
 	 * + Crowd effect attacks 
@@ -200,6 +205,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Refresh);
 	UFUNCTION()
 	void OnRep_Refresh(const FGameplayAttributeData& NewValue) const;
+	//? WillPower * 0.5
 	
 	/** + on ArmorBreak (takes more damage for some time) */
 	UPROPERTY(ReplicatedUsing=OnRep_ArmorBreak, BlueprintReadOnly, Category="Attribute|Primary")
@@ -207,6 +213,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ArmorBreak);
 	UFUNCTION()
 	void OnRep_ArmorBreak(const FGameplayAttributeData& NewValue) const;
+	//?  1 / (1 - [(Refresh / 100) + willpower * 0.25 + Cons * 10)]
 	
 	//? Secondary Types will be used for items
 	/** + FireType Resistance and Attack */

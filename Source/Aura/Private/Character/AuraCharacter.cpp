@@ -64,7 +64,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 
 	//! Must be called after setting up ability system component
-	InitialPrimaryAttribute();
+	InitialDefaultAttributes();
 }
 
 /**
@@ -83,6 +83,15 @@ void AAuraCharacter::OnRep_PlayerState()
 
 	// Init Ability Actor info for the client
 	InitAbilityActorInfo();
+}
+
+int32 AAuraCharacter::GetPlayerLevel() const
+{
+	if (const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>())
+	{
+		return AuraPlayerState->GetPlayerLevel();
+	}
+	return 0; 
 }
 
 /**
