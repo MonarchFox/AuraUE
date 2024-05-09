@@ -161,7 +161,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalDamage);
 	UFUNCTION()
 	void OnRep_CriticalDamage(const FGameplayAttributeData& NewValue) const;
-	//? [(Dex * 0.15) + (WillType * 0.25) + (Str * .15)] * (Attack + 1) 
+	//? [(Dex * 0.30) + (Str * .20)]
 	
 	/** + CriticalResistance */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalResistance, BlueprintReadOnly, Category="Attribute|Primary")
@@ -169,7 +169,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalResistance);
 	UFUNCTION()
 	void OnRep_CriticalResistance(const FGameplayAttributeData& NewValue) const;
-	//? Cons * 0.15 + WillType * 0.25 + str * 0.05
+	//? Cons * 0.15 + str * 0.05
 	
 	/** + HealthRegeneration */
 	UPROPERTY(ReplicatedUsing=OnRep_Focus, BlueprintReadOnly, Category="Attribute|Primary")
