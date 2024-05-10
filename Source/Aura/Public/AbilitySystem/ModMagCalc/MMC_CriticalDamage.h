@@ -25,7 +25,7 @@ class AURA_API UMMC_CriticalDamage : public UMMC_Base
 	float StrMul { 0.20f };
 
 	UPROPERTY(EditAnywhere, Category=Custom, meta=(AllowPrivateAccess="true"))
-	float DivideLevel { 100.f };
+	float DivideLevel { 1000.f };
 	
 public:
 	UMMC_CriticalDamage();

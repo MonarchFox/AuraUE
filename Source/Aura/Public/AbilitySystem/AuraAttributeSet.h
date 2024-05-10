@@ -153,7 +153,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, CriticalChance);
 	UFUNCTION()
 	void OnRep_CriticalChance(const FGameplayAttributeData& NewValue) const;
-	//? (Dex * 0.15) + (WillType * 0.15) - (ArmorPenetration - Cons * 0.15)
+	//? (BaseCriticalChance + (PlayerLevel / MaxPlayerLevel * 10) + MaxStat * 0.01)
 	
 	/** + CriticalDamage */
 	UPROPERTY(ReplicatedUsing=OnRep_CriticalDamage, BlueprintReadOnly, Category="Attribute|Primary")

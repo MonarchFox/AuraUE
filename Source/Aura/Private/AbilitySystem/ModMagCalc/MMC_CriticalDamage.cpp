@@ -14,7 +14,10 @@ UMMC_CriticalDamage::UMMC_CriticalDamage()
 float UMMC_CriticalDamage::Execute(const FGameplayEffectSpec& Spec,
 	const FAggregatorEvaluateParameters& EvaluateParameters) const
 {
+
+	const float LevelBonus = GetPlayerLevel(Spec) / DivideLevel;
+	
 	return DexMul * GetAttribute(DexDef, Spec, EvaluateParameters)
-			+ StrMul * GetAttribute(StrDef, Spec, EvaluateParameters)
-			+ GetPlayerLevel(Spec) / DivideLevel;
+					+ StrMul * GetAttribute(StrDef, Spec, EvaluateParameters)
+					+ LevelBonus;
 }
