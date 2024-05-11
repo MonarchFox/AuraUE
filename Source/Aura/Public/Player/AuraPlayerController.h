@@ -59,11 +59,15 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Player Input")
 	TObjectPtr<UInputAction> MouseInputAction;
+	
+	UPROPERTY(EditAnywhere, Category="Player Input")
+	TObjectPtr<UInputAction> AttributeMenuInputAction;
 
 	// Sub-Section Input Methods
 
 	void MoveAction(const FInputActionValue& Action);
 	void MouseAction(const FInputActionValue& Action);
+	void AttributeMenuAction(const FInputActionValue& Action);
 	
 	// End Section Inputs
 

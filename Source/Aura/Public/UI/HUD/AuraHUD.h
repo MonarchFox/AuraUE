@@ -34,8 +34,9 @@ public:
 		UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent);
 
 	//? Getters
-	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParam& WidgetControllerParam);
-
+	UOverlayWidgetController* SetOverlayWidgetController(const FWidgetControllerParam& WidgetControllerParam);
+	FORCEINLINE UOverlayWidgetController* GetOverlayWidgetController() const { return OverlayWidgetController? OverlayWidgetController: nullptr; }
+		
 private:
 
 	//~ Stores Widgets for overlay

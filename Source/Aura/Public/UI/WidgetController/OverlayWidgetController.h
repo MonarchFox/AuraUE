@@ -34,9 +34,7 @@ struct FUIWidgetRow: public FTableRowBase
 
 //? Delegations
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
-
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
-
 
 /**
  * @class UOverlayWidgetController
@@ -71,11 +69,11 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Message")
 	FMessageWidgetRowSignature MessageDelegate;
-
+	
 	// Section End
 
-
 protected:
+
 
 	//? Meta Information
 
@@ -89,8 +87,8 @@ protected:
 	//~ Delegate Template
 	template<class T>
 	static void AttributeBroadcast(const T& Data, FOnAttributeChangedSignature& DelegateAttribute);
-	
 	void BroadcastWidgetRow(const FGameplayTagContainer& AssetTags, const FName ParentName) const;
+
 	
 	//? Meta Information Getters and Setters
 	FORCEINLINE TObjectPtr<UDataTable> GetMessageWidgetDataTable() const { return MessageWidgetDataTable; }

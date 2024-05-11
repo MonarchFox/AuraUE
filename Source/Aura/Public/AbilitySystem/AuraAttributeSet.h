@@ -72,14 +72,17 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+
+	//~ Widget Openers
+	bool TriggerAttributeMenu { false };
 	
 	/**
 	 *
 	 *			Section Primary Attributes
 	 * 
 	 */
-
-
+	
 	/** + Strength: Represents physical damage */
 	UPROPERTY(ReplicatedUsing=OnRep_Strength, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData Strength;

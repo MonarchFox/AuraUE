@@ -2,10 +2,13 @@
 
 
 #include "Player/AuraPlayerController.h"
-
 #include "EnhancedInputSubsystems.h" 
 #include "EnhancedInputComponent.h" 
+#include "Character/AuraCharacter.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/HUD/AuraHUD.h"
+#include "UI/Widget/AuraUserWidget.h"
+#include "UI/WidgetController/OverlayWidgetController.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
@@ -18,7 +21,6 @@ void AAuraPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	InitController();
-	InitCursor();
 }
 
 // Section Initial Setups
@@ -67,7 +69,10 @@ void AAuraPlayerController::SetupInputComponent()
 		this, &AAuraPlayerController::MoveAction);
 	EnhancedInputComponent->BindAction(MouseInputAction, ETriggerEvent::Triggered, this,
 		&AAuraPlayerController::MouseAction);
-	
+
+	//~ Widgets Key
+	EnhancedInputComponent->BindAction(AttributeMenuInputAction, ETriggerEvent::Started,
+		this, &AAuraPlayerController::AttributeMenuAction);
 }
 
 // Sub-Section Input Bindings
@@ -97,6 +102,22 @@ void AAuraPlayerController::MouseAction(const FInputActionValue& Action)
 	
 	AddYawInput(LookInput.X);
 	AddPitchInput(LookInput.Y);
+}
+
+void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
+{
+	const bool Value  = Action.Get<bool>();
+	if (!Value) return;
+
+	bShowMouseCursor = !bShowMouseCursor;
+	// DefaultMouseCursor = EMouseCursor::Default;
+	//
+	// FInputModeGameAndUI InputModeData;
+	// InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	// InputModeData.SetHideCursorDuringCapture(false);
+	
+	// SetInputMode(InputModeData);
+	// TODO: Add Functionality to Open Attribute Menu When Pressed Tab
 }
 
 // End Input Setups
