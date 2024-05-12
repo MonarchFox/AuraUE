@@ -20,6 +20,12 @@ class UInputAction;
 class IEnemyInterface;
 
 
+struct FMouseInputModeGameAndUI: public FInputModeGameAndUI
+{
+	virtual bool ShouldFlushInputOnViewportFocus() const override { return true; }
+};
+
+
 /**
  *		Implements the player controller for the Aura game.
  *

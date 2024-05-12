@@ -126,6 +126,9 @@ void AAuraCharacter::InitAbilityActorInfo()
 		{
 			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState,
 				GetAttributeSet(), GetAbilitySystemComponent());
+
+			//~ Spawnable(s) Widgets
+			AuraHUD->InitSpawnableWidgets(AuraPlayerController);
 		}
 	}
 }

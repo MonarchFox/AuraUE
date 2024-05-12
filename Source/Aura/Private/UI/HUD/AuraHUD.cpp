@@ -16,6 +16,7 @@
  * @param AbilitySystemComponent The ability system component associated with the overlay widget.
  * @return void
  */
+
 void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* PlayerState,
                            UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent)
 {
@@ -32,6 +33,26 @@ void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* Pl
 	WidgetController->BroadcastInitialValues();
 
 	Widget->AddToViewport();
+}
+
+void AAuraHUD::InitSpawnableWidgets(APlayerController* PlayerController)
+{
+	if (!AttributeMenuUIClass) return;
+	if (!AttributeMenuWidget)
+	{
+		// Creating Widget
+		AttributeMenuWidget = CreateWidget<UAuraUserWidget>(PlayerController, AttributeMenuUIClass,
+			FName("Attribute Menu"));
+		
+		if (!AttributeMenuWidget) return;
+
+		// Setting Widget Props
+		AttributeMenuWidget->AddToViewport();
+		AttributeMenuWidget->SetPositionInViewport(FVector2d(GetAttributeMenu_XPosition(),
+			GetAttributeMenu_YPosition()));
+
+		AttributeMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
 }
 
 /**

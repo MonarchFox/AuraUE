@@ -110,14 +110,31 @@ void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
 	if (!Value) return;
 
 	bShowMouseCursor = !bShowMouseCursor;
-	// DefaultMouseCursor = EMouseCursor::Default;
-	//
-	// FInputModeGameAndUI InputModeData;
-	// InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-	// InputModeData.SetHideCursorDuringCapture(false);
-	
-	// SetInputMode(InputModeData);
-	// TODO: Add Functionality to Open Attribute Menu When Pressed Tab
+
+	if (const AAuraHUD* AuraHUD = Cast<AAuraHUD>(GetHUD()))
+	{
+		if (bShowMouseCursor)
+		{
+			FInputModeGameAndUI InputModeData;
+			//~ Setting Widget Visibility
+			AuraHUD->AttributeMenuWidget->SetVisibility(ESlateVisibility::Visible);
+
+			//~ Configuring Mouse Behaviour
+			DefaultMouseCursor = EMouseCursor::Default;
+			InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+			InputModeData.SetHideCursorDuringCapture(false);
+			SetInputMode(InputModeData);
+		}
+		else
+		{
+			AuraHUD->AttributeMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+
+			//~ Resetting mouse behaviour
+			FInputModeGameOnly InputModeData;
+			InputModeData.SetConsumeCaptureMouseDown(false);
+			SetInputMode(InputModeData);
+		}
+	}
 }
 
 // End Input Setups
