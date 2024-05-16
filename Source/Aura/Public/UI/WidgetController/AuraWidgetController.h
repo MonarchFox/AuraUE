@@ -69,16 +69,21 @@ UCLASS()
 class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
+	FString WidgetControllerName = "Default";
 
 public:
-
+	
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParam(const FWidgetControllerParam& WidgetController);
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
+
+	FORCEINLINE FString GetWidgetControllerName() const { return WidgetControllerName; }
+	FORCEINLINE void SetWidgetControllerName(FString NewName)
+	{ WidgetControllerName = NewName; }
 	
 protected:
-
+	
 	// Section Data Broadcast 
 	UPROPERTY(BlueprintReadOnly, Category="Widget Controller")
 	TObjectPtr<APlayerController> PlayerController;

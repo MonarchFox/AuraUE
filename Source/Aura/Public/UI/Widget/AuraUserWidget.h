@@ -13,6 +13,9 @@
  *
  * This class is a user widget that provides visual data and functions for Aura project.
  */
+
+class UAuraWidgetController;
+
 UCLASS()
 class AURA_API UAuraUserWidget : public UUserWidget
 {
@@ -22,10 +25,10 @@ public:
 
 	//~ Data
 	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<UObject> WidgetController;
+	TObjectPtr<UAuraWidgetController> WidgetController;
 
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetController(UObject* InWidgetController);
+	void SetWidgetController(UAuraWidgetController* InWidgetController);
 	
 protected:
 	UFUNCTION(BlueprintImplementableEvent)

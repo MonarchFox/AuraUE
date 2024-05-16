@@ -2,6 +2,7 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
@@ -14,6 +15,28 @@ UAuraAttributeSet::UAuraAttributeSet()
 	//? For Debug Purpose Only
 	InitHitPoints(100.f);
 	InitManaPoints(100.f);
+
+	// ~ Populate FAttributeSignature Delegate
+	const FAuraGameplayTags GameplayTags = FAuraGameplayTags::Get();
+
+	// + Primary Attribute
+	TagsToAttribute.Add(GameplayTags.Attributes_Primary_Strength, GetStrengthAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Primary_Intelligence, GetIntelligenceAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Primary_Dexterity, GetDexterityAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Primary_Constitution, GetConstitutionAttribute);
+
+	// + Secondary Attribute
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_Armor, GetArmorAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_ArmorPenetration, GetArmorPenetrationAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalChance, GetCriticalChanceAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalDamage, GetCriticalDamageAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_CriticalResistance, GetCriticalResistanceAttribute);
+
+	// + Character Personal Attributes
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_HealthRegeneration, GetHealthRegenerationAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_ManaRegeneration, GetManaRegenerationAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_MaxHitPoints, GetMaxHitPointsAttribute);
+	TagsToAttribute.Add(GameplayTags.Attributes_Secondary_MaxMana, GetMaxManaPointsAttribute);
 }
 
 /**
@@ -37,7 +60,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 {
 	// !Replication Properties Setup
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
+	
 	// + Vita; Attribute Setup
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HitPoints, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHitPoints, COND_None, REPNOTIFY_Always);

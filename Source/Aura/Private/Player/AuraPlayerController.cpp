@@ -115,11 +115,10 @@ void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
 	{
 		if (bShowMouseCursor)
 		{
-			FInputModeGameAndUI InputModeData;
-			//~ Setting Widget Visibility
-			AuraHUD->AttributeMenuWidget->SetVisibility(ESlateVisibility::Visible);
-
+			AuraHUD->SetAttributeMenuVisibility(ESlateVisibility::Visible);
+			
 			//~ Configuring Mouse Behaviour
+			FInputModeGameAndUI InputModeData;
 			DefaultMouseCursor = EMouseCursor::Default;
 			InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 			InputModeData.SetHideCursorDuringCapture(false);
@@ -127,7 +126,7 @@ void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
 		}
 		else
 		{
-			AuraHUD->AttributeMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+			AuraHUD->SetAttributeMenuVisibility(ESlateVisibility::Hidden);
 
 			//~ Resetting mouse behaviour
 			FInputModeGameOnly InputModeData;

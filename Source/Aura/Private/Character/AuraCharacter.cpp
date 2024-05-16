@@ -124,11 +124,12 @@ void AAuraCharacter::InitAbilityActorInfo()
 	{
 		if (AAuraHUD* AuraHUD  = Cast<AAuraHUD>(AuraPlayerController->GetHUD()))
 		{
-			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState,
+			AuraHUD->InitOverlay(AuraPlayerController, GetPlayerState(),
 				GetAttributeSet(), GetAbilitySystemComponent());
 
-			//~ Spawnable(s) Widgets
-			AuraHUD->InitSpawnableWidgets(AuraPlayerController);
+			//~ Attribute Menu Widget
+			AuraHUD->InitAttributeMenuWidgets(AuraPlayerController, GetPlayerState(),
+				GetAttributeSet(), GetAbilitySystemComponent());
 		}
 	}
 }

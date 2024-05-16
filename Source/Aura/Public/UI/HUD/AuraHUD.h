@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "UI/Widget/AuraUserWidget.h"
+#include "UI/WidgetController/AuraWidgetController.h"
 #include "AuraHUD.generated.h"
 
 
@@ -12,6 +14,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class UOverlayWidgetController;
 class UAuraUserWidget;
+class UAttributeMenuWidgetController;
 
 /**
  * @class AAuraHUD
@@ -23,50 +26,74 @@ UCLASS()
 class AURA_API AAuraHUD : public AHUD
 {
 	GENERATED_BODY()
-
-	//? Attribute Menu Size Information
-	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"))
-	float AttributeMenu_XPosition { 500.f };
-	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"))
-	float AttributeMenu_YPosition { 35.f };
 	
 public:
 
-	//~ AttributeMenu
-	UPROPERTY(EditAnywhere, Category="Custom")
-	TSubclassOf<UAuraUserWidget> AttributeMenuUIClass;
-
-	//~ Spawnable Widgets
-	UPROPERTY()
-	UAuraUserWidget* AttributeMenuWidget = nullptr;
-	
-	//~ initial Widget
-	UPROPERTY()
-	TObjectPtr<UAuraUserWidget> OverlayWidget;
+	// Section Overlay
 
 	void InitOverlay(APlayerController* PlayerController, APlayerState* PlayerState,
 		UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent);
 
-	void InitSpawnableWidgets(APlayerController* PlayerController);
-
-	//? Getters
+	//~ Getters and Setters
 	UOverlayWidgetController* SetOverlayWidgetController(const FWidgetControllerParam& WidgetControllerParam);
 	FORCEINLINE UOverlayWidgetController* GetOverlayWidgetController() const { return OverlayWidgetController? OverlayWidgetController: nullptr; }
 
-	//~ Attribute Menu Keys
+	// End Overlay
+
+	// Section Attribute Menu
+	
+	void InitAttributeMenuWidgets(APlayerController* PlayerController, APlayerState* PlayerState,
+						   UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent);
+	
+	//~ Getters and Setters
+	UAttributeMenuWidgetController* SetAttributeMenuWidgetController(const FWidgetControllerParam& WidgetControllerParam);
+	FORCEINLINE UAttributeMenuWidgetController* GetAttributeMenuWidgetController() const { return AttributeMenuWidgetController; }
+
+	// + Attribute Menu Spawn Positions
 	FORCEINLINE float GetAttributeMenu_XPosition() const { return AttributeMenu_XPosition; }
 	FORCEINLINE float GetAttributeMenu_YPosition() const { return AttributeMenu_YPosition; }
+
+	// + Attribute Menu Widget Status
+	FORCEINLINE void SetAttributeMenuVisibility(const ESlateVisibility Visibility) const { AttributeMenuWidget->SetVisibility(Visibility); }
 	
 private:
 
-	//~ Stores Widgets for overlay
-	UPROPERTY(EditAnywhere, Category="Widgets")
+	// Section Overlay
+
+	//+ Overlay Widget
+	UPROPERTY()
+	TObjectPtr<UAuraUserWidget> OverlayWidget;
+	UPROPERTY(EditAnywhere, Category="Widgets|Overlay")
 	TSubclassOf<UAuraUserWidget> OverlayWidgetClass;
 
+	//+ Overlay Widget Controller
 	UPROPERTY()
 	TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
-
-	UPROPERTY(EditAnywhere, Category="Widgets")
+	UPROPERTY(EditAnywhere, Category="Widgets|Overlay")
 	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 
+	// End Overlay
+
+	// Section Attribute Menu
+
+	//+ Meta Information
+
+	UPROPERTY(EditDefaultsOnly, Category="Widgets|AttributeMenu", meta=(AllowPrivateAccess="true"))
+	float AttributeMenu_XPosition { 500.f };
+	UPROPERTY(EditDefaultsOnly, Category="Widgets|AttributeMenu", meta=(AllowPrivateAccess="true"))
+	float AttributeMenu_YPosition { 35.f };
+	
+	//+ Attribute Menu Widget
+	UPROPERTY(EditAnywhere, Category="Widgets|AttributeMenu")
+	TSubclassOf<UAuraUserWidget> AttributeMenuUIClass;
+	UPROPERTY()
+	UAuraUserWidget* AttributeMenuWidget = nullptr;
+
+	//+ Attribute Menu Widget Controller
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+	UPROPERTY(EditAnywhere, Category="Widgets|AttributeMenu")
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
+
+	// End Attribute Menu
 };

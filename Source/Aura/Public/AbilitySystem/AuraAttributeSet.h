@@ -14,6 +14,15 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+
+//? Delegates
+DECLARE_DELEGATE_RetVal(FGameplayAttribute, FAttributeSignature);
+
+
+//? Aliases
+template <class T>
+using TFunctionPointer = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 //? Forward Declarations
 struct FGameplayEffectContextHandle;
 class UAbilitySystemComponent;
@@ -42,7 +51,6 @@ struct FEffectProperty
 	UPROPERTY()
 	ACharacter* Character = nullptr;
 };
-
 
 /**
  * @class UAuraAttributeSet
@@ -73,7 +81,9 @@ public:
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
-
+	//? Delegates functions
+	TMap<FGameplayTag, TFunctionPointer<FGameplayAttribute()>> TagsToAttribute;
+	
 	//~ Widget Openers
 	bool TriggerAttributeMenu { false };
 	
@@ -97,7 +107,7 @@ public:
 	UFUNCTION()
 	void OnRep_Constitution(const FGameplayAttributeData& CON) const;
 
-	/** + Dexterity: Represent Health Capacity and Body Defense */
+	/** + Dexterity: Represent Weapon Accuracy and Armor Penetration */
 	UPROPERTY(ReplicatedUsing=OnRep_Dexterity, BlueprintReadOnly, Category="Attribute|Primary")
 	FGameplayAttributeData Dexterity;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Dexterity);

@@ -4,6 +4,7 @@
 #include "UI/HUD/AuraHUD.h"
 #include "Blueprint/UserWidget.h"
 #include "UI/Widget/AuraUserWidget.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 
 
@@ -16,6 +17,8 @@
  * @param AbilitySystemComponent The ability system component associated with the overlay widget.
  * @return void
  */
+
+// Section Overlay Widget
 
 void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* PlayerState,
                            UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent)
@@ -35,26 +38,6 @@ void AAuraHUD::InitOverlay(APlayerController* PlayerController, APlayerState* Pl
 	Widget->AddToViewport();
 }
 
-void AAuraHUD::InitSpawnableWidgets(APlayerController* PlayerController)
-{
-	if (!AttributeMenuUIClass) return;
-	if (!AttributeMenuWidget)
-	{
-		// Creating Widget
-		AttributeMenuWidget = CreateWidget<UAuraUserWidget>(PlayerController, AttributeMenuUIClass,
-			FName("Attribute Menu"));
-		
-		if (!AttributeMenuWidget) return;
-
-		// Setting Widget Props
-		AttributeMenuWidget->AddToViewport();
-		AttributeMenuWidget->SetPositionInViewport(FVector2d(GetAttributeMenu_XPosition(),
-			GetAttributeMenu_YPosition()));
-
-		AttributeMenuWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
-}
-
 /**
  * Get the overlay widget controller for the given widget controller.
  *
@@ -71,3 +54,56 @@ UOverlayWidgetController* AAuraHUD::SetOverlayWidgetController(const FWidgetCont
 	}
 	return OverlayWidgetController;
 }
+
+// End Overlay Widget
+
+
+// Section Attribute Menu Widget
+
+/** Initializes Attribute Menu Widget and Set its visibility to hidden */
+void AAuraHUD::InitAttributeMenuWidgets(APlayerController* PlayerController, APlayerState* PlayerState,
+						   UAttributeSet* AttributeSet, UAbilitySystemComponent* AbilitySystemComponent)
+{
+	if (!AttributeMenuUIClass) return;
+	if (!AttributeMenuWidget)
+	{
+		// Creating Widget
+		UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), AttributeMenuUIClass);
+		AttributeMenuWidget = Cast<UAuraUserWidget>(Widget);
+		
+		if (!AttributeMenuWidget) return;
+
+		// Setting Up Attribute Menu Widget Controller
+		const FWidgetControllerParam WidgetControllerParam(PlayerController, PlayerState, AbilitySystemComponent, AttributeSet);
+		
+		UAttributeMenuWidgetController* WidgetController = SetAttributeMenuWidgetController(WidgetControllerParam);
+		WidgetController->SetWidgetControllerName("Attribute Menu Widget Controller");
+		
+		AttributeMenuWidget->SetWidgetController(WidgetController);		//? Connecting Widget To Widget Controller
+		WidgetController->BroadcastInitialValues();
+
+		// Setting Widget Props
+		AttributeMenuWidget->AddToViewport();
+		AttributeMenuWidget->SetPositionInViewport(FVector2d(GetAttributeMenu_XPosition(),
+			GetAttributeMenu_YPosition()));
+
+		AttributeMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+/** Create or return if already created Attribute Menu Widget Controller Responsible for Dynamic Responses to the widgets */
+UAttributeMenuWidgetController* AAuraHUD::SetAttributeMenuWidgetController(
+	const FWidgetControllerParam& WidgetControllerParam)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController =
+			NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParam(WidgetControllerParam);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return AttributeMenuWidgetController;
+}
+
+
+// End Attribute Menu Widget

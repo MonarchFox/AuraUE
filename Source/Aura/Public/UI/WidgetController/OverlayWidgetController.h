@@ -73,10 +73,8 @@ public:
 	// Section End
 
 protected:
-
-
+	
 	//? Meta Information
-
 	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"), BlueprintReadOnly)
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
 	
@@ -88,11 +86,9 @@ protected:
 	template<class T>
 	static void AttributeBroadcast(const T& Data, FOnAttributeChangedSignature& DelegateAttribute);
 	void BroadcastWidgetRow(const FGameplayTagContainer& AssetTags, const FName ParentName) const;
-
 	
 	//? Meta Information Getters and Setters
 	FORCEINLINE TObjectPtr<UDataTable> GetMessageWidgetDataTable() const { return MessageWidgetDataTable; }
-	
 };
 
 template <typename T>
