@@ -11,7 +11,7 @@
 #include "AuraCharacterBase.generated.h"
 
 
-
+class UGameplayAbility;
 class UGameplayEffect;
 class UAttributeSet;
 class UAbilitySystemComponent;
@@ -28,11 +28,14 @@ class AURA_API AAuraCharacterBase :	public ACharacter,
 	GENERATED_BODY()
 	
 	//? meta information
+	/** + Abilities */
+	UPROPERTY(EditAnywhere, Category="Custom|Ability", meta=(AllowPrivateAccess))
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 	/** + Replication meta information */
     bool ReplicationRequired { true };
 
-	/** +Attributes meta information */
+	/** + Attributes meta information */
 	UPROPERTY(EditAnywhere, Category="Attribute|Primary", BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TSubclassOf<UGameplayEffect> DefaultPrimaryAttribute;
 
@@ -41,6 +44,11 @@ class AURA_API AAuraCharacterBase :	public ACharacter,
 
 public:
 	AAuraCharacterBase();
+
+	//~ Interfaces
+
+	//+ CombatInterface
+	virtual FVector GetCombatSocketLocation() const override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -52,12 +60,14 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> PAttributeSet;
-
 	
 	// Section Cosmetics References
 	
 	UPROPERTY(EditAnywhere, Category="Combat", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UStaticMeshComponent> WeaponComponent;
+
+	UPROPERTY(EditAnywhere, Category="Combat", meta=(AllowPrivateAccess="true"))
+	FName WeaponTipSocketName;
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName WeaponComponentSocketName { "WeaponHandSocket" };
@@ -67,12 +77,14 @@ protected:
 	//~ Initial Attribute Setter
 	void InitGameplayEffectToSelf(const TSubclassOf<UGameplayEffect> AttributeEffect, const float Level) const;
 	void InitialDefaultAttributes() const;
-
+	
 public:
-		
+
+	/** ? Abilities */
+	void AddCharacterAbility();
+	
 	/** ? Getters */
 	
-
 	//~ Getters and Setters For Gameplay Ability System
 	FORCEINLINE virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return PAbilitySystemComponent; }
 	FORCEINLINE void SetAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent) { PAbilitySystemComponent = AbilitySystemComponent; }

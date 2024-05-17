@@ -65,6 +65,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 
 	//! Must be called after setting up ability system component
 	InitialDefaultAttributes();
+	AddCharacterAbility();
 }
 
 /**

@@ -1,14 +1,11 @@
 // Coded By MonarchFox
 
-
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h" 
-#include "EnhancedInputComponent.h" 
-#include "Character/AuraCharacter.h"
+#include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 #include "UI/HUD/AuraHUD.h"
 #include "UI/Widget/AuraUserWidget.h"
-#include "UI/WidgetController/OverlayWidgetController.h"
 
 
 AAuraPlayerController::AAuraPlayerController()
@@ -61,18 +58,23 @@ void AAuraPlayerController::SetupInputComponent()
 	// !Binds Inputs
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EnhancedInputComponent =
-		CastChecked<UEnhancedInputComponent>(InputComponent);
+	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 
-
-	EnhancedInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered,
+	//~ Movement Bindings
+	AuraInputComponent->BindAction(MoveInputAction, ETriggerEvent::Triggered,
 		this, &AAuraPlayerController::MoveAction);
-	EnhancedInputComponent->BindAction(MouseInputAction, ETriggerEvent::Triggered, this,
+	AuraInputComponent->BindAction(MouseInputAction, ETriggerEvent::Triggered, this,
 		&AAuraPlayerController::MouseAction);
 
-	//~ Widgets Key
-	EnhancedInputComponent->BindAction(AttributeMenuInputAction, ETriggerEvent::Started,
+	//~ Widget Bindings
+	AuraInputComponent->BindAction(AttributeMenuInputAction, ETriggerEvent::Started,
 		this, &AAuraPlayerController::AttributeMenuAction);
+
+	//~ Abilities Bindings
+	AuraInputComponent->BindAbilityActions(AbilityInputConfig, this,
+											&AAuraPlayerController::AbilityInputTagPressed,
+											&AAuraPlayerController::AbilityInputTagReleased,
+											&AAuraPlayerController::AbilityInputTagHeld);
 }
 
 // Sub-Section Input Bindings
@@ -134,6 +136,24 @@ void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
 			SetInputMode(InputModeData);
 		}
 	}
+}
+
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	if (!GetAuraAbilitySystemComponent()) return;
+	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("Pressed"));
+}
+
+void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	if (!GetAuraAbilitySystemComponent()) return;
+	GetAuraAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (!GetAuraAbilitySystemComponent()) return;
+	GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
 }
 
 // End Input Setups

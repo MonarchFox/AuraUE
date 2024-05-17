@@ -35,10 +35,16 @@ public:
 	void AbilityActorInfoSet();
 
 	FEffectAssetTags EffectAssetTags;
-	
-protected:
 
+	//~ Grants Ability
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+
+	//~ Ability Calls
+	void AbilityInputTagHeld(const FGameplayTag& GameplayTag);
+	void AbilityInputTagReleased(const FGameplayTag& GameplayTag);
+	
 	//~ Delegate Bindings
-	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec,
+	UFUNCTION(Client, Reliable)
+	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec,
 		FActiveGameplayEffectHandle ActiveGameplayEffectHandle);
 };

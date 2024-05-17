@@ -30,7 +30,6 @@ void FAuraGameplayTags::InitNativeGameplayTags()
 	//~ Secondary Attribute GameplayTags
 	
 	// + Character Personal GameplayTags
-	
 	SetGameplayTag(GameplayTags.Attributes_Secondary_MaxHitPoints,
 					FName("Attributes.Secondary.MaxHitPoints"));
 	SetGameplayTag(GameplayTags.Attributes_Secondary_MaxMana,
@@ -39,7 +38,6 @@ void FAuraGameplayTags::InitNativeGameplayTags()
 					FName("Attributes.Secondary.MaxStamina"));
 
 	// + Armor GameplayTags
-
 	SetGameplayTag(GameplayTags.Attributes_Secondary_Armor,
 					FName("Attributes.Secondary.Armor"),
 			FString("Physical Damage Reduction"));
@@ -48,7 +46,6 @@ void FAuraGameplayTags::InitNativeGameplayTags()
 	FString("Decreases HitTarget Armor Efficiency"));
 
 	// + Critical GameplayTags
-	
 	SetGameplayTag(GameplayTags.Attributes_Secondary_CriticalChance,
 					FName("Attributes.Secondary.CriticalChance"));
 	SetGameplayTag(GameplayTags.Attributes_Secondary_CriticalDamage,
@@ -57,11 +54,22 @@ void FAuraGameplayTags::InitNativeGameplayTags()
 					FName("Attributes.Secondary.CriticalResistance"));
 
 	// + Regeneration GameplayTags
-
 	SetGameplayTag(GameplayTags.Attributes_Secondary_HealthRegeneration,
 					FName("Attributes.Secondary.HealthRegeneration"));
 	SetGameplayTag(GameplayTags.Attributes_Secondary_ManaRegeneration,
 					FName("Attributes.Secondary.ManaRegeneration"));
+
+	//~ Input Action GameplayTags
+
+	// + Mouse GameplayTags
+	SetGameplayTag(GameplayTags.InputTag_LMB, FName("InputTag.LMB"));
+	SetGameplayTag(GameplayTags.InputTag_RMB, FName("InputTag.RMB"));
+
+	// + keyboard GameplayTags
+	SetGameplayTag(GameplayTags.InputTag_1, FName("InputTag.1"));
+	SetGameplayTag(GameplayTags.InputTag_2, FName("InputTag.2"));
+	SetGameplayTag(GameplayTags.InputTag_3, FName("InputTag.3"));
+	SetGameplayTag(GameplayTags.InputTag_4, FName("InputTag.4"));
 }
 
 void FAuraGameplayTags::SetGameplayTag(FGameplayTag& Tag, const FName TagName)

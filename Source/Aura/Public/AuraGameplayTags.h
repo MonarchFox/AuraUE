@@ -29,23 +29,32 @@ public:
 	FGameplayTag Attributes_Primary_Constitution;
 	
 	//~ Secondary Attribute Tags
-	// +Character Personal
+	// + Character Personal Tags
 	FGameplayTag Attributes_Secondary_MaxHitPoints;
 	FGameplayTag Attributes_Secondary_MaxMana;
 	FGameplayTag Attributes_Secondary_MaxStamina;
 	
-	// + Armor Stats
+	// + Armor Stats Tags
 	FGameplayTag Attributes_Secondary_Armor;
 	FGameplayTag Attributes_Secondary_ArmorPenetration;
 
-	// + Critical Stats
+	// + Critical Stats Tags
 	FGameplayTag Attributes_Secondary_CriticalChance;
 	FGameplayTag Attributes_Secondary_CriticalDamage;
 	FGameplayTag Attributes_Secondary_CriticalResistance;
 
-	// + Regeneration Stats
+	// + Regeneration Stats Tags
 	FGameplayTag Attributes_Secondary_HealthRegeneration;
 	FGameplayTag Attributes_Secondary_ManaRegeneration;
+
+	// + Input Tags
+	FGameplayTag InputTag_LMB;
+	FGameplayTag InputTag_RMB;
+	
+	FGameplayTag InputTag_1;
+	FGameplayTag InputTag_2;
+	FGameplayTag InputTag_3;
+	FGameplayTag InputTag_4;
 
 protected:
 	static void SetGameplayTag(FGameplayTag& Tag, const FName TagName);
