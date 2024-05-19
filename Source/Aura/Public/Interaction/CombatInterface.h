@@ -23,5 +23,6 @@ class AURA_API ICombatInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual int32 GetPlayerLevel() const { return 0; }
-	virtual FVector GetCombatSocketLocation() const { return FVector(); }
+	virtual FVector GetWeaponCombatSocketLocation() const { return FVector(); }
+	virtual FVector GetHandCombatSocketLocation() const { return FVector(); }
 };

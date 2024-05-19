@@ -12,7 +12,7 @@ enum class EGameplayEffectDurationType: uint8;
 class UGameplayEffect;
 
 UENUM(BlueprintType)
-enum class EEffectApplicationPolicy
+enum class EEffectApplicationPolicy: uint8
 {
 	/** This effect applies On Overlap */
 	ApplyOnOverlap,
@@ -23,7 +23,7 @@ enum class EEffectApplicationPolicy
 };
 
 UENUM(BlueprintType)
-enum class EEffectRemovalPolicy
+enum class EEffectRemovalPolicy: uint8
 {
 	/** This effect get removed on end overlap */
 	RemoveOnEndOverlap,

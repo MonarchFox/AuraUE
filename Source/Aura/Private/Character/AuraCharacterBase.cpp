@@ -20,10 +20,16 @@ AAuraCharacterBase::AAuraCharacterBase()
 
 // Section Interface Implementation
 
-FVector AAuraCharacterBase::GetCombatSocketLocation() const
+FVector AAuraCharacterBase::GetWeaponCombatSocketLocation() const
 {
-	if (!WeaponComponent->DoesSocketExist(WeaponTipSocketName)) return FVector();
+	if (!WeaponComponent->DoesSocketExist(WeaponTipSocketName)) return GetActorLocation() + FVector(0,0, 100.f);
 	return WeaponComponent->GetSocketLocation(WeaponTipSocketName);
+}
+
+FVector AAuraCharacterBase::GetHandCombatSocketLocation() const
+{
+	if (!GetMesh()->DoesSocketExist(HandComponentSocketName)) return GetActorLocation() + FVector(0,0, 100.f);
+	return GetMesh()->GetSocketLocation(HandComponentSocketName);
 }
 
 // End Interface Implementation

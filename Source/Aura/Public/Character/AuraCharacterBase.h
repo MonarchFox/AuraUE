@@ -48,7 +48,8 @@ public:
 	//~ Interfaces
 
 	//+ CombatInterface
-	virtual FVector GetCombatSocketLocation() const override;
+	virtual FVector GetWeaponCombatSocketLocation() const override;
+	virtual FVector GetHandCombatSocketLocation() const override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -71,6 +72,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName WeaponComponentSocketName { "WeaponHandSocket" };
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName HandComponentSocketName { "HandAttackSocket" };
 
 	// End
 

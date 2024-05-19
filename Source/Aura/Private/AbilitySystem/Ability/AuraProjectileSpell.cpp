@@ -4,7 +4,7 @@
 #include "AbilitySystem/Ability/AuraProjectileSpell.h"
 #include "Actor/Projectile/AuraProjectileBase.h"
 #include "Interaction/CombatInterface.h"
-#include "Kismet/KismetSystemLibrary.h"
+
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -14,10 +14,15 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 
 	const bool bIsServer = HasAuthority(&ActivationInfo);
 	if (!bIsServer) return;
+	
+}
 
+void UAuraProjectileSpell::InitSpellAbility()
+{
 	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
-		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+		//? Spawn From either hand or weapon
+		const FVector SocketLocation = bSpawnFromHand? GetSpawnHandLocation(): GetSpawnWeaponLocation();
 
 		// TODO: Set Rotation for spawning the projectile
 		FTransform SpawnTransform;
@@ -33,8 +38,31 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 		);
 
 		// TODO: Set Gameplay Effect Spec
-		
+		CacheProjectile = Projectile;
 		Projectile->FinishSpawning(SpawnTransform);
-		Projectile->SetLifeSpan(5.f);
 	}
+}
+
+void UAuraProjectileSpell::ActivateSpellAbility()
+{
+	CacheProjectile->ProjectileLaunched();
+	CacheProjectile->SetLifeSpan(SpellLifeSpan);
+}
+
+FVector UAuraProjectileSpell::GetSpawnHandLocation() const
+{
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
+	{
+		return CombatInterface->GetHandCombatSocketLocation();
+	}
+	return FVector();
+}
+
+FVector UAuraProjectileSpell::GetSpawnWeaponLocation() const
+{
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
+	{
+		return CombatInterface->GetWeaponCombatSocketLocation();
+	}
+	return FVector();
 }

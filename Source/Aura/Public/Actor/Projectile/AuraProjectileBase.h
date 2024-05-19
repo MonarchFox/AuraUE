@@ -8,8 +8,6 @@
 
 
 //? Default Value
-#define PROJECTILE_INITIAL_SPEED 550.f
-#define PROJECTILE_MAX_SPEED 600.f
 #define PROJECTILE_GRAVITY_SCALE 0
 
 //? Forward Declarations
@@ -21,9 +19,14 @@ UCLASS()
 class AURA_API AAuraProjectileBase : public AActor
 {
 	GENERATED_BODY()
-	
+
+	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"))
+	float VelocitySpeed { 3000.f };
+
 public:	
 	AAuraProjectileBase();
+	//~ Must be called when launched
+	virtual void ProjectileLaunched();
 
 protected:
 	virtual void BeginPlay() override;
@@ -46,7 +49,6 @@ private:
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
 public:
-
 	//? Getters and setters
 	//~ Structure Getters (accepts no Setters for this category)
 	FORCEINLINE UProjectileMovementComponent* GetProjectileMovementComponent() const { return ProjectileMovementComponent; }

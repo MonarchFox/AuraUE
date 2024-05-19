@@ -23,9 +23,14 @@ AAuraProjectileBase::AAuraProjectileBase()
 
 	//~ ProjectileMovement Component
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
-	ProjectileMovementComponent->InitialSpeed = PROJECTILE_INITIAL_SPEED;
-	ProjectileMovementComponent->MaxSpeed = PROJECTILE_MAX_SPEED;
+	ProjectileMovementComponent->InitialSpeed = 0;
+	ProjectileMovementComponent->MaxSpeed = 0;
 	ProjectileMovementComponent->ProjectileGravityScale = PROJECTILE_GRAVITY_SCALE;
+}
+
+void AAuraProjectileBase::ProjectileLaunched()
+{
+	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector(VelocitySpeed, 0, 0));
 }
 
 void AAuraProjectileBase::BeginPlay()
@@ -48,5 +53,6 @@ void AAuraProjectileBase::OnBeginOverlapSphereComponent(UPrimitiveComponent* Ove
 {
 	
 }
+
 
 // Section Initials End

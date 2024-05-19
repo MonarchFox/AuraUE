@@ -141,7 +141,6 @@ void AAuraPlayerController::AttributeMenuAction(const FInputActionValue& Action)
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
 	if (!GetAuraAbilitySystemComponent()) return;
-	GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Green, TEXT("Pressed"));
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
