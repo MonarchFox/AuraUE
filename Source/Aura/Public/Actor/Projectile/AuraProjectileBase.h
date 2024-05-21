@@ -10,9 +10,11 @@
 //? Default Value
 #define PROJECTILE_GRAVITY_SCALE 0
 
+class UNiagaraComponent;
 //? Forward Declarations
 class USphereComponent;
 class UProjectileMovementComponent;
+class UNiagaraSystem;
 
 
 UCLASS()
@@ -20,16 +22,15 @@ class AURA_API AAuraProjectileBase : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"))
-	float VelocitySpeed { 3000.f };
-
-public:	
+	//? Meta Information
+	bool bHit { false };
+	
+public:
 	AAuraProjectileBase();
-	//~ Must be called when launched
-	virtual void ProjectileLaunched();
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Destroyed() override;
 
 	//~ Projectile Structure Init
 
@@ -48,8 +49,25 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
+	//~ Spell Structure
+
+	// + Effect Body
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UNiagaraComponent> BodyEffect;
+
+	// + Effect Impact
+	UPROPERTY(EditAnywhere, Category="Custom|VFX")
+	TObjectPtr<UNiagaraSystem> ImpactEffect;
+
+	UPROPERTY(EditAnywhere, Category="Custom|Sound")
+	TObjectPtr<USoundBase> ImpactSound;
+
 public:
 	//? Getters and setters
 	//~ Structure Getters (accepts no Setters for this category)
 	FORCEINLINE UProjectileMovementComponent* GetProjectileMovementComponent() const { return ProjectileMovementComponent; }
+
+	//~ Helper Functions
+	void PlaySoundEffect(USoundBase* SFX) const;
+	void SpawnNiagaraEffect(UNiagaraSystem* VFX) const;
 };

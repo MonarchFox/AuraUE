@@ -4,18 +4,16 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
-
 AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	// Section StaticMeshComponents Constructor
+	//~ Structure Construction
 
+	// + Weapon Component
 	WeaponComponent = CreateDefaultSubobject<UStaticMeshComponent>("WeaponComponent");
 	WeaponComponent->SetupAttachment(GetMesh(), WeaponComponentSocketName);
 	WeaponComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	
-	// End
 }
 
 // Section Interface Implementation

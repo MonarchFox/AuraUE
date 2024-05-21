@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Ability/AuraProjectileSpell.h"
 #include "Actor/Projectile/AuraProjectileBase.h"
+#include "Actor/Projectile/AuraProjectileCast.h"
 #include "Interaction/CombatInterface.h"
 
 
@@ -11,22 +12,53 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
                                            const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-	const bool bIsServer = HasAuthority(&ActivationInfo);
-	if (!bIsServer) return;
 	
 }
 
-void UAuraProjectileSpell::InitSpellAbility()
+void UAuraProjectileSpell::InitSpellAbility(const FVector& StartDirection)
 {
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer) return;
+
 	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
 		//? Spawn From either hand or weapon
 		const FVector SocketLocation = bSpawnFromHand? GetSpawnHandLocation(): GetSpawnWeaponLocation();
-
-		// TODO: Set Rotation for spawning the projectile
+		
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
+		
+		AAuraProjectileCast* CastEffect =  GetWorld()->SpawnActorDeferred<AAuraProjectileCast>
+		(
+			SpellCastClass,
+			SpawnTransform,
+			GetOwningActorFromActorInfo(),
+			Cast<APawn>(GetOwningActorFromActorInfo()),
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
+		);
+
+		CastEffect->FinishSpawning(SpawnTransform);
+		SpellCastComponent = CastEffect;
+	}
+}
+
+void UAuraProjectileSpell::ActivateSpellAbility(const FVector& FireDirection)
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	
+	if (!bIsServer) return;
+	
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
+	{
+		if (SpellCastComponent) SpellCastComponent->Destroy();
+		
+		//? Spawn From either hand or weapon
+		const FVector SocketLocation = bSpawnFromHand? GetSpawnHandLocation(): GetSpawnWeaponLocation();
+		const FRotator Rotation = (FireDirection - SocketLocation).Rotation();
+		
+		FTransform SpawnTransform;
+		SpawnTransform.SetLocation(SocketLocation);
+		SpawnTransform.SetRotation(Rotation.Quaternion());
 		
 		AAuraProjectileBase* Projectile =  GetWorld()->SpawnActorDeferred<AAuraProjectileBase>
 		(
@@ -38,15 +70,9 @@ void UAuraProjectileSpell::InitSpellAbility()
 		);
 
 		// TODO: Set Gameplay Effect Spec
-		CacheProjectile = Projectile;
 		Projectile->FinishSpawning(SpawnTransform);
+		Projectile->SetLifeSpan(SpellLifeSpan);
 	}
-}
-
-void UAuraProjectileSpell::ActivateSpellAbility()
-{
-	CacheProjectile->ProjectileLaunched();
-	CacheProjectile->SetLifeSpan(SpellLifeSpan);
 }
 
 FVector UAuraProjectileSpell::GetSpawnHandLocation() const

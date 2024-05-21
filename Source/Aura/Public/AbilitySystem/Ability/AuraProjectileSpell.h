@@ -7,6 +7,7 @@
 #include "AuraProjectileSpell.generated.h"
 
 
+class AAuraProjectileCast;
 class AAuraProjectileBase;
 
 /**
@@ -24,9 +25,8 @@ class AURA_API UAuraProjectileSpell : public UAuraGameplayAbility
 	UPROPERTY(EditAnywhere, Category="Custom", meta=(AllowPrivateAccess="true"))
 	float SpellLifeSpan { 5.f };
 
-	//~ Saved Projectile
 	UPROPERTY()
-	AAuraProjectileBase* CacheProjectile = nullptr;
+	AAuraProjectileCast* SpellCastComponent = nullptr;
 
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle,
@@ -34,12 +34,11 @@ protected:
 		const FGameplayEventData* TriggerEventData) override;
 	
 	//~ Init Spell
-	UFUNCTION(BlueprintCallable)
-	virtual void InitSpellAbility();
+	UFUNCTION(BlueprintCallable, Category="Projectile")
+	virtual void InitSpellAbility(const FVector& StartDirection);
 	
-	UFUNCTION(BlueprintCallable)
-	virtual void ActivateSpellAbility();
-	
+	UFUNCTION(BlueprintCallable, Category="Projectile")
+	virtual void ActivateSpellAbility(const FVector& FireDirection);
 	
 	virtual FVector GetSpawnHandLocation() const;
 	virtual FVector GetSpawnWeaponLocation() const;
@@ -47,4 +46,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category=Custom, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TSubclassOf<AAuraProjectileBase> ProjectileClass;
+	
+	UPROPERTY(EditAnywhere, Category=Custom, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
+	TSubclassOf<AAuraProjectileCast> SpellCastClass;
 };

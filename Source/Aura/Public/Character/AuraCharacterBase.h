@@ -11,11 +11,11 @@
 #include "AuraCharacterBase.generated.h"
 
 
+//? Forward Declarations
 class UGameplayAbility;
 class UGameplayEffect;
 class UAttributeSet;
 class UAbilitySystemComponent;
-
 
 /**
  *	Character Base Class
@@ -50,7 +50,7 @@ public:
 	//+ CombatInterface
 	virtual FVector GetWeaponCombatSocketLocation() const override;
 	virtual FVector GetHandCombatSocketLocation() const override;
-
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo();
@@ -62,7 +62,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> PAttributeSet;
 	
-	// Section Cosmetics References
+	// Section Structures
 	
 	UPROPERTY(EditAnywhere, Category="Combat", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UStaticMeshComponent> WeaponComponent;
@@ -76,7 +76,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	FName HandComponentSocketName { "HandAttackSocket" };
 
-	// End
+	// End Structures
 
 	//~ Initial Attribute Setter
 	void InitGameplayEffectToSelf(const TSubclassOf<UGameplayEffect> AttributeEffect, const float Level) const;
