@@ -6,6 +6,9 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Aura/Aura.h"
+#include "Components/AudioComponent.h"
+#include "Interaction/CombatInterface.h"
 
 
 AAuraProjectileBase::AAuraProjectileBase()
@@ -19,6 +22,7 @@ AAuraProjectileBase::AAuraProjectileBase()
 
 	// + Setting Up SphereComponent Overlap Config
 	SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	SphereComponent->SetCollisionObjectType(ECC_Projectile);
 	SphereComponent->SetCollisionResponseToChannels(ECR_Ignore);
 	SphereComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	SphereComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
@@ -41,13 +45,16 @@ void AAuraProjectileBase::BeginPlay()
 
 	//~ Initials
 	InitSphereStructureComponent();
+	SetLifeSpan(5.f);
+	PlaySoundEffect(BodySound, true);
 }
 
 void AAuraProjectileBase::Destroyed()
 {
+	ShutDownProjectileSounds();
 	if (!bHit && !HasAuthority())
 	{
-		// SpawnNiagaraEffect(ImpactEffect);
+		SpawnNiagaraEffect(ImpactEffect);
 		PlaySoundEffect(ImpactSound);
 	}
 	Super::Destroyed();
@@ -63,6 +70,11 @@ void AAuraProjectileBase::InitSphereStructureComponent()
 void AAuraProjectileBase::OnBeginOverlapSphereComponent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (!CanCollide(OtherActor)) return;
+	
+	
+	ShutDownProjectileSounds();
+
 	SpawnNiagaraEffect(ImpactEffect);
 	PlaySoundEffect(ImpactSound);
 
@@ -74,7 +86,25 @@ void AAuraProjectileBase::OnBeginOverlapSphereComponent(UPrimitiveComponent* Ove
 
 // Section Helper Functions
 
-void AAuraProjectileBase::PlaySoundEffect(USoundBase* SFX) const
+
+bool AAuraProjectileBase::CanCollide(AActor* Actor) const
+{
+	checkf(OwnerActor, TEXT("Configure Who is Firing the projectile in PorjectileSpell"));
+
+	if (const ICombatInterface* CombatInterface = Cast<ICombatInterface>(Actor))
+	{
+		return CombatInterface != OwnerActor;
+	}
+	
+	return true;
+}
+
+void AAuraProjectileBase::SetOwnerActor(const ICombatInterface* Actor)
+{
+	if (Actor) OwnerActor = Actor;
+}
+
+void AAuraProjectileBase::PlaySoundEffect(USoundBase* SFX, bool bAttach)
 {
 
 	if (!SFX)
@@ -82,14 +112,22 @@ void AAuraProjectileBase::PlaySoundEffect(USoundBase* SFX) const
 		UE_LOG(LogTemp, Error, TEXT("Null Sound Effect Passed To Play At AuraProjectileBase Class"));
 		return;
 	}
-	
-	UGameplayStatics::PlaySoundAtLocation
-	(
-		this,
-		SFX,
-		GetActorLocation(),
-		FRotator::ZeroRotator
-	);
+
+	if (!bAttach)
+	{
+		UGameplayStatics::PlaySoundAtLocation
+		(
+			this,
+			SFX,
+			GetActorLocation(),
+			FRotator::ZeroRotator
+		);
+	}else
+	{
+		ProjectileSound = UGameplayStatics::SpawnSoundAttached(
+			SFX, GetRootComponent()
+		);
+	}
 }
 
 void AAuraProjectileBase::SpawnNiagaraEffect(UNiagaraSystem* VFX) const

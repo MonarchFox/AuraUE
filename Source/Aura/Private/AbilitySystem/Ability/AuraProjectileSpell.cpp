@@ -70,8 +70,8 @@ void UAuraProjectileSpell::ActivateSpellAbility(const FVector& FireDirection)
 		);
 
 		// TODO: Set Gameplay Effect Spec
+		Projectile->SetOwnerActor(CombatInterface);
 		Projectile->FinishSpawning(SpawnTransform);
-		Projectile->SetLifeSpan(SpellLifeSpan);
 	}
 }
 
