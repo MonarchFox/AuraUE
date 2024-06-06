@@ -78,6 +78,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Custom", meta=(AllowPrivateAccess="true"), BlueprintReadOnly)
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
 	
+	//? Meta Information Getters and Setters
+	FORCEINLINE TObjectPtr<UDataTable> GetMessageWidgetDataTable() const { return MessageWidgetDataTable; }
+
+public:
 	//~ Template
 	template<typename T>
 	static T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
@@ -87,8 +91,6 @@ protected:
 	static void AttributeBroadcast(const T& Data, FOnAttributeChangedSignature& DelegateAttribute);
 	void BroadcastWidgetRow(const FGameplayTagContainer& AssetTags, const FName ParentName) const;
 	
-	//? Meta Information Getters and Setters
-	FORCEINLINE TObjectPtr<UDataTable> GetMessageWidgetDataTable() const { return MessageWidgetDataTable; }
 };
 
 template <typename T>

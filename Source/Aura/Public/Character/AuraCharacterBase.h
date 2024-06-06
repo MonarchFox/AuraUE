@@ -7,14 +7,14 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interaction/CombatInterface.h"
-
 #include "AuraCharacterBase.generated.h"
 
 
+class UAttributeSet;
 //? Forward Declarations
 class UGameplayAbility;
 class UGameplayEffect;
-class UAttributeSet;
+class UAuraAttributeSet;
 class UAbilitySystemComponent;
 
 /**
@@ -80,7 +80,7 @@ protected:
 
 	//~ Initial Attribute Setter
 	void InitGameplayEffectToSelf(const TSubclassOf<UGameplayEffect> AttributeEffect, const float Level) const;
-	void InitialDefaultAttributes() const;
+	void InitializeDefaultAttributes() const;
 	
 public:
 
@@ -94,7 +94,7 @@ public:
 	FORCEINLINE void SetAbilitySystemComponent(UAbilitySystemComponent* AbilitySystemComponent) { PAbilitySystemComponent = AbilitySystemComponent; }
 
 	FORCEINLINE UAttributeSet* GetAttributeSet () const { return PAttributeSet; }
-	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet) { PAttributeSet = AttributeSet; }
+	FORCEINLINE void SetAttributeSet(UAttributeSet* AttributeSet);
 
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultPrimaryAttribute() const { return DefaultPrimaryAttribute; }
 	FORCEINLINE TSubclassOf<UGameplayEffect> GetDefaultSecondaryAttribute() const { return DefaultSecondaryAttribute; }

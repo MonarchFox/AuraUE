@@ -4,6 +4,8 @@
 #include "Character/AuraEnemy.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/AuraUserWidget.h"
 
 
 AAuraEnemy::AAuraEnemy()
@@ -23,12 +25,17 @@ AAuraEnemy::AAuraEnemy()
 	PAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	PAttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
+
+	// + HealthBar Widget
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBarWidget");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+	BroadcastAttribute();
 }
 
 void AAuraEnemy::InitAbilityActorInfo()
@@ -37,41 +44,58 @@ void AAuraEnemy::InitAbilityActorInfo()
 
 	GetAbilitySystemComponent()->InitAbilityActorInfo(this, this);
 	Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent())->AbilityActorInfoSet();
+
+	InitializeDefaultAttributes();
+}
+
+void AAuraEnemy::BroadcastAttribute()
+{
+	//~ BroadCast Values
+	if (UAuraUserWidget* AuraUserWidget =  Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		AuraUserWidget->SetWidgetController(this);
+	}
+
+	if (const UAuraAttributeSet* AttributeSet = Cast<UAuraAttributeSet>(GetAttributeSet()))
+	{
+		// + Health Change
+		GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate
+		(AttributeSet->GetHitPointsAttribute()).AddLambda
+		(
+			[&](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		// + Max Health Change
+		GetAbilitySystemComponent()->GetGameplayAttributeValueChangeDelegate
+		(AttributeSet->GetMaxHitPointsAttribute()).AddLambda
+		(
+			[&](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		//~ Initial Attributes
+		OnHealthChanged.Broadcast(AttributeSet->GetHitPoints());
+		OnMaxHealthChanged.Broadcast(AttributeSet->GetMaxHitPoints());
+	}
 }
 
 // Section Interface
 
-/**
- * @brief Highlights the actor.
- *
- * This method is used to highlight an actor by setting the highlight stencil value.
- * The highlight effect is applied when an actor is hovered.
- */
 void AAuraEnemy::HighLightActor()
 {
-	SetHighLightStencil(HighlightStencilValue, true);
+	
 }
 
-/**
- * @brief UnHighLightActor is a method in the AAuraEnemy class.
- *
- * This method is used to remove the highlight effect from an actor by setting the highlight stencil value to 0.
- * The highlight effect is typically applied when an actor is no longer being hovered.
- */
 void AAuraEnemy::UnHighLightActor()
 {
-	SetHighLightStencil(0.f, false);
+	
 }
 
-/**
- * @brief Sets the highlight stencil value and status for the actor.
- *
- * This method is used to set the highlight status for the actor by setting the highlight stencil value.
- * It updates the custom depth rendering settings of the actor's mesh and weapon component.
- *
- * @param Value The stencil value to be set for highlighting the actor.
- * @param Status The highlight status indicating whether the actor should be highlighted or not.
- */
 void AAuraEnemy::SetHighLightStencil(const float Value, const bool Status) const
 {
 	GetMesh()->SetRenderCustomDepth(Status);

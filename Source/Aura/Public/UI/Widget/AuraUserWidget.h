@@ -25,10 +25,10 @@ public:
 
 	//~ Data
 	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<UAuraWidgetController> WidgetController;
+	TObjectPtr<UObject> WidgetController;
 
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetController(UAuraWidgetController* InWidgetController);
+	void SetWidgetController(UObject* InWidgetController);
 	
 protected:
 	UFUNCTION(BlueprintImplementableEvent)

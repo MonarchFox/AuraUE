@@ -6,7 +6,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 
 
-void UAuraUserWidget::SetWidgetController(UAuraWidgetController* InWidgetController)
+void UAuraUserWidget::SetWidgetController(UObject* InWidgetController)
 {
 	WidgetController = InWidgetController;
 	WidgetControllerSet();

@@ -1,6 +1,9 @@
 // Coded By MonarchFox
 
 #include "Actor/Projectile/AuraProjectileBase.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "NiagaraComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -30,8 +33,8 @@ AAuraProjectileBase::AAuraProjectileBase()
 
 	// +  ProjectileMovement Component
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
-	ProjectileMovementComponent->InitialSpeed = 2000;
-	ProjectileMovementComponent->MaxSpeed = 3000;
+	ProjectileMovementComponent->InitialSpeed = PROJECTILE_INITIAL_SPEED;
+	ProjectileMovementComponent->MaxSpeed = PROJECTILE_MAX_SPEED;
 	ProjectileMovementComponent->ProjectileGravityScale = PROJECTILE_GRAVITY_SCALE;
 
 	// + Body Niagara Component
@@ -72,20 +75,28 @@ void AAuraProjectileBase::OnBeginOverlapSphereComponent(UPrimitiveComponent* Ove
 {
 	if (!CanCollide(OtherActor)) return;
 	
-	
 	ShutDownProjectileSounds();
-
 	SpawnNiagaraEffect(ImpactEffect);
 	PlaySoundEffect(ImpactSound);
 
-	if (HasAuthority()) Destroy();
-	else bHit = true;
+	if (HasAuthority())
+	{
+		if (UAbilitySystemComponent* TargetAbilitySystemComponent
+			= UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		{
+			TargetAbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+		}
+		Destroy();
+	}
+	else
+	{
+		bHit = true;
+	}
 }
 
 // Section Initials End
 
 // Section Helper Functions
-
 
 bool AAuraProjectileBase::CanCollide(AActor* Actor) const
 {

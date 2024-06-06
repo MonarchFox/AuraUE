@@ -9,6 +9,7 @@
 
 class AAuraProjectileCast;
 class AAuraProjectileBase;
+class UGameplayEffect;
 
 /**
  *		Represents Casting Spells
@@ -42,6 +43,9 @@ protected:
 	
 	virtual FVector GetSpawnHandLocation() const;
 	virtual FVector GetSpawnWeaponLocation() const;
+
+	UPROPERTY(EditDefaultsOnly, Category="Custom|Damage", BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 	
 private:
 	UPROPERTY(EditAnywhere, Category=Custom, BlueprintReadOnly, meta=(AllowPrivateAccess="true"))

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraEnemy.generated.h"
 
 /*****************************************************************************
@@ -15,6 +16,10 @@
  *  It inherits from AAuraCharacterBase and IEnemyInterface.
  *
  *****************************************************************************/
+
+
+//? Forward Declarations
+class UWidgetComponent;
 
 
 UCLASS(Blueprintable)
@@ -31,6 +36,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
+	virtual void BroadcastAttribute();
+
+	//~ Widget Components
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> HealthBar;
 
 public:
 	// Section Interface
@@ -46,4 +56,11 @@ public:
 	//~ Combat Interface
 	virtual int32 GetPlayerLevel() const override { return PlayerLevel; }
 	// End Interface
+
+	//~ Delegates
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangedSignature OnMaxHealthChanged;
 };

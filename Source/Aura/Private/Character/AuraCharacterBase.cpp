@@ -3,6 +3,7 @@
 #include "Character/AuraCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAttributeSet.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 
@@ -66,7 +67,7 @@ void AAuraCharacterBase::InitGameplayEffectToSelf(const TSubclassOf<UGameplayEff
 		GetAbilitySystemComponent());
 }
 
-void AAuraCharacterBase::InitialDefaultAttributes() const
+void AAuraCharacterBase::InitializeDefaultAttributes() const
 {
 	InitGameplayEffectToSelf(GetDefaultPrimaryAttribute(), 1.0);
 	InitGameplayEffectToSelf(GetDefaultSecondaryAttribute(), 1.0);
@@ -78,4 +79,9 @@ void AAuraCharacterBase::AddCharacterAbility()
 
 	UAuraAbilitySystemComponent* AbilitySystemComponent = CastChecked<UAuraAbilitySystemComponent>(GetAbilitySystemComponent());
 	AbilitySystemComponent->AddCharacterAbilities(StartupAbilities);
+}
+
+void AAuraCharacterBase::SetAttributeSet(UAttributeSet* AttributeSet)
+{
+	PAttributeSet = AttributeSet;
 }

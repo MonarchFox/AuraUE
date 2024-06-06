@@ -2,6 +2,9 @@
 
 
 #include "AbilitySystem/Ability/AuraProjectileSpell.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Actor/Projectile/AuraProjectileBase.h"
 #include "Actor/Projectile/AuraProjectileCast.h"
 #include "Interaction/CombatInterface.h"
@@ -70,6 +73,10 @@ void UAuraProjectileSpell::ActivateSpellAbility(const FVector& FireDirection)
 		);
 
 		// TODO: Set Gameplay Effect Spec
+		const UAbilitySystemComponent* SourceASC =  UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+		const FGameplayEffectContextHandle ContextHandle = SourceASC->MakeEffectContext();
+
+		Projectile->DamageEffectSpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, 1, ContextHandle);
 		Projectile->SetOwnerActor(CombatInterface);
 		Projectile->FinishSpawning(SpawnTransform);
 	}

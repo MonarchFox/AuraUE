@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/Actor.h"
 #include "AuraProjectileBase.generated.h"
@@ -10,6 +11,8 @@
 
 //? Default Value
 #define PROJECTILE_GRAVITY_SCALE 0
+#define PROJECTILE_INITIAL_SPEED 2000
+#define PROJECTILE_MAX_SPEED 3000
 
 //? Forward Declarations
 class USphereComponent;
@@ -35,6 +38,12 @@ class AURA_API AAuraProjectileBase : public AActor
 public:
 	AAuraProjectileBase();
 
+	//~ Projectile Action
+
+	// + Damage Action
+	UPROPERTY(BlueprintReadWrite, meta=(ExposeOnSpawn="true"))
+	FGameplayEffectSpecHandle DamageEffectSpecHandle;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Destroyed() override;
@@ -47,6 +56,7 @@ protected:
 	UFUNCTION()
 	void OnBeginOverlapSphereComponent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 private:
 	//~ Projectile Structure
@@ -79,7 +89,8 @@ public:
 	//? Getters and setters
 	//~ Structure Getters (accepts no Setters for this category)
 	FORCEINLINE UProjectileMovementComponent* GetProjectileMovementComponent() const { return ProjectileMovementComponent; }
-
+	FORCEINLINE
+	
 	//~ Function Settings
 	void ShutDownProjectileSounds() const
 	{
